@@ -5,12 +5,12 @@ const Schema = mongoose.Schema
 const uniqueValidator = require('mongoose-unique-validator')
 
 //create a schema
-const adminSchema = new Schema({
+const userSchema = new Schema({
     'email' : {type: String, required: false, unique: true},
     'password' : {type: String, required: true}
 });
 
-adminSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator)
 
 // exporter le model de données
-module.exports = mongoose.model('Admin', adminSchema)
+module.exports = mongoose.model('User', userSchema)
