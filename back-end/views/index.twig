@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <a class="navbar-brand" href="#">back end du site </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
+<div class="container">
+<h1 class="text-center display-4">Festival des jeux api REST </h1>
+  
+  {% for route in routes %}
+    <h3 class="display-3 text-center">{{route}}</h3>
+    {% for methode in methodes %}
+      <p>
+        <span class='{{ methode }}'> {{ methode }} </span> 
+        <span class='url'><a href='/api/{{ route }}'> /api/{{ route }}</a> 
+        {% if methode is same as('get') %}
+          Get data
+        {% elseif methode is same as('post') %}
+          Create data
+        {% elseif methode is same as('put') %}
+          Update Data
+        {% elseif methode is same as('delete') %}
+          Delete data
+        {% endif %} : {{ route}}</span>
+      </p>
+    {% endfor %}
+  {% endfor %}
+{% endblock %}

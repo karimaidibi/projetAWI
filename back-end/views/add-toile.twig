@@ -1,0 +1,19 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+    <form action="/add-toile" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="">prix : </label>
+            <input type="number" name="prix">
+        </div>
+        <div>
+            <label for="">image : </label>
+            <input type="file" name="image">
+        </div>
+        <div>
+            <label for="">date : </label>
+            <input type="date" name="dateCreation">
+        </div>
+        <button type="submit"> Add toile</button>
+    </form>
+{% endblock %}

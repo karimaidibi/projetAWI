@@ -1,0 +1,10 @@
+show ('dbs')
+use("festivals")
+
+db.zones.insertOne(
+    
+    {
+        "nom" : "Dupont"        
+    }
+
+)
