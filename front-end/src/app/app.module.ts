@@ -25,6 +25,7 @@ import { JeuPipe } from './pipes/jeu/jeu.pipe';
 import { NomJeuPipe } from './pipes/jeu/nom-jeu.pipe';
 import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
 
+
 @NgModule({
   declarations: [
     AppComponent,
