@@ -15,6 +15,7 @@ var benevoleRouter = require('./routes/benevoleRoutes')
 var jeuRouter = require('./routes/jeuRoutes')
 var zoneRouter = require('./routes/zoneRoutes')
 var typeJeuRouter = require('./routes/typeJeuRoutes')
+var userRouter = require('./routes/userRoutes')
 
 //body parser pour les requetes
 const bodyParser = require('body-parser');
@@ -65,6 +66,7 @@ app.use('/api/benevoles', benevoleRouter)
 app.use('/api/jeux', jeuRouter)
 app.use('/api/zones',zoneRouter)
 app.use('/api/typesJeux',typeJeuRouter)
+app.use('/api/users', userRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

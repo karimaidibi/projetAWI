@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var BenevoleController = require('../controllers/BenevoleController')
+const auth = require('../middlewares/auth');
 
 // récuperer la liste de tous les Jeux
 router.get('/',BenevoleController.list);

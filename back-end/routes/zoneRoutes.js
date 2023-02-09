@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var ZoneController = require('../controllers/ZoneController')
 
+const auth = require('../middlewares/auth');
+
 // récuperer la liste de tous les produits
 router.get('/',ZoneController.list);
 

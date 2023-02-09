@@ -1,6 +1,6 @@
 /*
 - creer un middleware qui va regarder si la requete contient un token
- - si oui, regarder si valide
+- si oui, regarder si valide
 - si tout est bon, passer au middleware suivant 
 */
 const jwt = require('jsonwebtoken');

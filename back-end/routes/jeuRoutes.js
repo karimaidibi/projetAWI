@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var JeuController = require('../controllers/JeuController')
 
+const auth = require('../middlewares/auth');
+
 // récuperer la liste de tous les Jeux
 router.get('/',JeuController.list);
 

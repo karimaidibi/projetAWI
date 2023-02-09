@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var TypeJeuController = require('../controllers/TypeJeuController')
-// const multerConfig = require('../middlewares/multer.config')
-// const auth = require('../middlewares/auth');
-// const authAdmin = require('../middlewares/authAdmin');
+
+const auth = require('../middlewares/auth');
+
 
 // récuperer la liste de tous les TypeJeu
 router.get('/',TypeJeuController.list);
