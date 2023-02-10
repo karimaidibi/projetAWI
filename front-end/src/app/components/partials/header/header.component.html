@@ -1,0 +1,46 @@
+<!--header admin-->
+<div class="container d-flex flex-wrap bg-gradient shadow-lg adminTool" *ngIf="">
+  <!--si user est connecté-->
+  <ul class="nav" *ngIf="">
+    <li class="nav-item"><a href="#" class="nav-link link-light px-2" data-bs-toggle="offcanvas" href="#offcanvasMonCompte" role="button" aria-controls="offcanvasMonCompte">Mon compte</a></li>
+    <li class="nav-item"><a href="#" class="nav-link link-light px-2" role="button">Log out</a></li>
+    <!-- mon compte component-->
+  </ul>
+</div>
+
+<!--premier header-->
+<div class="container d-flex flex-wrap" *ngIf="">
+  <!--si user est connecté-->
+  <ul class="nav" *ngIf="">
+    <li class="nav-item"><a href="#" class="nav-link link-dark px-2" data-bs-toggle="offcanvas" href="#offcanvasMonCompte" role="button" aria-controls="offcanvasMonCompte">Mon compte</a></li>
+    <li class="nav-item"><a href="#" class="nav-link link-dark px-2" role="button">Log out</a></li>
+    <!-- mon compte component-->
+  </ul>
+</div>
+
+<hr class="bg-gradient bg-dark hrHeader" style="width: 60%; height:0.5px;">
+
+<!--nav bar-->
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+  <a routerLink="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none ps-5">
+    Festivals<em>API</em>
+    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+  </a>
+  <!--item au milieu-->
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li >
+      <a routerLink="/" class="nav-link px-2 link-dark">Jeux</a>
+    </li>
+    <li >
+      <a routerLink="/" class="nav-link px-2 link-dark">Bénévoles</a>
+    </li>
+    <li >
+      <a routerLink="/" class="nav-link px-2 link-dark">Zones</a>
+    </li>
+  </ul>
+
+  <hr class="bg-gradient bg-dark" style="width: 100%; height:2px;">
+
+</header>
+
+

@@ -1,1 +1,50 @@
-<p>signin works!</p>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">CONNEXION</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" *ngIf="!loading">
+
+      <div>
+        Saisissez vos identifiants
+      </div>
+
+      <hr class="bg-gradient bg-dark hrHeader" style="width: 60%; height:0.5px;">
+
+      <div>
+        <form>
+
+        <!--alert sign in error -->
+        <div *ngIf="errorMessage" class="container mx-auto alert alert-dark alert-dismissible fade show" role="alert" style="max-width: 700px;">
+          {{errorMessage}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+          <div class="mb-3">
+            <label for="emailSignIn" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="emailSignIn" aria-describedby="emailHelp" placeholder="Elisabeth@gmail.com"
+            name="email"
+            formControlName="email"
+            >
+
+            <div id="emailHelp" class="form-text">Bienvenue !</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="passSignIn" class="form-label">Password</label>
+            <input type="password" class="form-control" id="passSignIn"
+            name="password"
+            formControlName="password"
+            >
+            <div id="emailHelp" class="form-text">Nous gardons bien les secrets :')</div>
+          </div>
+
+          <button type="submit" class="btn boutonDark  btn-lg" [disabled]="signInForm.invalid">Se connecter</button>
+
+          <hr class="hrHeader" style="width: 40%; height:3px;">
+
+        </form>
+      </div>
+    </div>
+  </div>
