@@ -1,0 +1,77 @@
+show ('dbs')
+use("festivals")
+
+db.zones.insertMany(
+    
+    [{
+        "nom" : "Esplanade-Gauche 1"        
+    },
+    {
+        "nom" : "Esplanade-Gauche 2"        
+    },
+    {
+        "nom" : "Esplanade-Gauche 3"        
+    },
+    {
+        "nom" : "Esplanade-Centre 1"        
+    },
+    {
+        "nom" : "Esplanade-Centre 2"        
+    },
+    {
+        "nom" : "Esplanade-Centre 3"        
+    },
+    {
+        "nom" : "Esplanade-Centre 4"        
+    },
+    {
+        "nom" : "Esplanade-Centre 5"        
+    },
+    {
+        "nom" : "Esplanade-Droite 1"        
+    },
+    {
+        "nom" : "Esplanade-Droite 2"        
+    },
+    {
+        "nom" : "Esplanade-Droite 3"        
+    },
+    {
+        "nom" : "Esplanade-Droite 4"        
+    },
+    {
+        "nom" : "Esplanade-Accueil"        
+    },
+    {
+        "nom" : "Antigone-buvette"        
+    },
+    {
+        "nom" : "Antigone-Entrée 1"        
+    },
+    {
+        "nom" : "Antigone-Entrée 2"        
+    },
+    {
+        "nom" : "Antigone-Entrée 3"        
+    },
+    {
+        "nom" : "Antigone-Entrée 4"        
+    },
+    {
+        "nom" : "Antigone-Entrée 5"        
+    },
+    {
+        "nom" : "Antigone-Fond 1"        
+    },
+    {
+        "nom" : "Antigone-Fond 2"        
+    },
+    {
+        "nom" : "Antigone-Proto"        
+    },
+    {
+        "nom" : "Antigone-Loup-Garous"        
+    },
+    ]
+
+)

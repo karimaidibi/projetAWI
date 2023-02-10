@@ -9,9 +9,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {path:'home', component: HomeComponent},
-  {path:'zone', component: ZonesComponent},
-  {path:'jeu', component: JeuxComponent},
-  {path:'benevole', component: BenevolesComponent},
+  {path:'zones', component: ZonesComponent},
+  {path:'jeux', component: JeuxComponent},
+  {path:'benevoles', component: BenevolesComponent},
   {path:'', component: HomeComponent},
   // si tout ce qui est avant ne marche pas faire ceci
   {path:'**', pathMatch:'full', redirectTo: 'not-found'},

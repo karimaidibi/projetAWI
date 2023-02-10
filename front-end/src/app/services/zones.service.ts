@@ -31,11 +31,11 @@ export class ZonesService {
           this.zones = data.result
           this.emitZones()
         }else{
-          console.log("Erreur de chargement des jeux (status !=200): ",data.message)
+          console.log("Erreur de chargement des zones (status !=200): ",data.message)
         }
       },
       error:(error)=>{
-        console.log("Erreur de chargement des jeux (error): ",error)
+        console.log("Erreur de chargement des zones (error): ",error)
       }
 
     })

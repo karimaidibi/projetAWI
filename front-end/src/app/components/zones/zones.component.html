@@ -1,12 +1,9 @@
 <!--les produits-->
-<div *ngIf="" class="mt-4 ProduitsDiv">
-  <!--alert-->
-  <div *ngIf="" class="container mx-auto alert alert-dark alert-dismissible fade show" role="alert" style="max-width: 700px;">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-
+<div class="mt-4 ProduitsDiv">
   <ul>
-    <li ng-repeat="zone in zones">
+    <span> Liste des zones du festival des jeux</span>
+    <li *ngFor="let zone of zones">
+      {{ zone.nom }}
     </li>
   </ul>
 </div>
