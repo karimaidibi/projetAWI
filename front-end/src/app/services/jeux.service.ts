@@ -46,7 +46,7 @@ export class JeuxService {
     return new Promise((resolve,reject)=>{
       this.http.post(this.api+'/jeux',jeu).subscribe({
         next:(data:any)=>{
-          if(data.statux===201){
+          if(data.status===201){
             this.getJeux()
             resolve(data)
           }else{
@@ -68,7 +68,7 @@ export class JeuxService {
     return new Promise((resolve, reject)=>{
       this.http.put(this.api+'/jeux/'+id, jeu).subscribe({
         next:(data:any)=>{
-          if(data.statu===200){
+          if(data.status===200){
             this.getJeux()
             resolve(data)
           }else{
@@ -86,4 +86,23 @@ export class JeuxService {
       })
     })
   }
+
+  deleteJeu(id: string){
+    return new Promise((resolve, reject)=>{
+      this.http.delete(this.api+'/jeux/'+id).subscribe({
+        next:(data:any)=>{
+            this.getJeux()
+            resolve(data)
+          },
+        error:(err)=>{
+          console.log("Erreur de suppression du jeu (error): ", err)
+          reject(err)
+        },
+        complete:()=>{
+          console.log("Suppression du jeu terminée")
+        }
+      })
+    })
+  }
+
 }
