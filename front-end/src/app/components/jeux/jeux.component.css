@@ -1,0 +1,13 @@
+/* the table should be centered*/
+table {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+.mat-row:hover{
+    background-color: #968c8c7a;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    border-color: currentColor;
+    font-weight: bold;
+}

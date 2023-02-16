@@ -5,6 +5,14 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -62,7 +70,15 @@ import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatNativeDateModule
   ],
   providers: [
     // interceptor, sa classe,
