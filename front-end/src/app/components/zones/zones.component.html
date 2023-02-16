@@ -1,9 +1,13 @@
 <!--les produits-->
 <div class="mt-4 ProduitsDiv">
-  <ul>
-    <span> Liste des zones du festival des jeux</span>
-    <li *ngFor="let zone of zones">
-      {{ zone.nom }}
-    </li>
-  </ul>
+  <span> Liste des zones du festival des jeux</span>
+  <mat-table [dataSource]="zones" class="mat-elevation-z8">
+    <ng-container matColumnDef="nom">
+      <mat-header-cell mat-header-cell *matHeaderCellDef> Nom de la zone </mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let zone"> {{ zone.nom }} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>

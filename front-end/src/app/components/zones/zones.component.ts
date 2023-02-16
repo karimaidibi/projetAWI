@@ -13,6 +13,7 @@ export class ZonesComponent implements OnInit {
   zonesSub!: Subscription
   zones!: Zone[]
   loading: boolean = true
+  displayedColumns : String[] = ['nom'];
 
   constructor(private zonesService: ZonesService) { }
 
