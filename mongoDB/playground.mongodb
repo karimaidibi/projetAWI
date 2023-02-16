@@ -1,10 +1,4 @@
 show ('dbs')
 use("festivals")
 
-db.zones.insertOne(
-    
-    {
-        "nom" : "Dupont"        
-    }
-
-)
+db.jeus.find().pretty()

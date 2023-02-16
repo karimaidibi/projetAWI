@@ -4,7 +4,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatTableModule} from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -62,6 +62,7 @@ import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatTableModule
   ],
   providers: [
     // interceptor, sa classe,

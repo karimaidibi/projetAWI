@@ -1,0 +1,17 @@
+[
+    {
+        "type" : "enfant"
+    },
+    {
+        "type" : "famille"
+    },
+    {
+        "type" : "ambiance"
+    },
+    {
+        "type" : "initié"
+    },
+    {
+        "type" : "expert"
+    }
+]

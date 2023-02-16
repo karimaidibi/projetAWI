@@ -13,6 +13,8 @@ export class JeuxComponent implements OnInit, OnDestroy {
   jeuxSub!: Subscription;
   jeux!: Jeu[];
 
+  displayedColumns: string[] = ['nom', 'type', 'zone'];
+
   constructor(private jeuxService: JeuxService,
     ) { }
 
