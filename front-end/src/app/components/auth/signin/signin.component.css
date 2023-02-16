@@ -1,0 +1,10 @@
+.boutonDark{
+  width: 100%;
+
+  background-color: black;
+  color: white;
+}
+
+.hrHeader{
+  margin-left: 20%;
+}

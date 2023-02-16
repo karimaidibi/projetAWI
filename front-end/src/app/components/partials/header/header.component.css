@@ -1,0 +1,29 @@
+
+
+em{
+  font-size: x-small;
+  padding-top: 6%;
+  padding-left: 1%;
+}
+
+.brand{
+  padding-top: 1%;
+  padding-left: 1%;
+}
+
+.hrHeader{
+  margin-left: 20%;
+}
+
+a:hover {
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
+.adminTool a:hover{
+  border-bottom: 1px solid white;
+}
+
+.adminTool{
+  background-color: black;
+}
