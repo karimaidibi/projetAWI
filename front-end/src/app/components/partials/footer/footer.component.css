@@ -3,4 +3,11 @@
   left: 0;
   bottom: 0; */
   width: 100%;
+  background-color: #9C27B0;
+}
+
+/* font color for the footer in white */
+.footer p {
+  color: white;
+  font-weight: bold;
 }

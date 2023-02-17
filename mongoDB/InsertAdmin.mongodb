@@ -1,0 +1,7 @@
+show ('dbs')
+use("festivals")
+
+db.users.insertOne{
+    "email": "admin@gmail.com",
+    "password": "admin"
+}

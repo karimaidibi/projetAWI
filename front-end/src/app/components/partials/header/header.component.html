@@ -1,42 +1,30 @@
-<!--header admin-->
-<div class="container d-flex flex-wrap bg-gradient shadow-lg adminTool" *ngIf="">
-  <!--si user est connectÃ©-->
-  <ul class="nav" *ngIf="">
-    <li class="nav-item"><a href="#" class="nav-link link-light px-2" data-bs-toggle="offcanvas" href="#offcanvasMonCompte" role="button" aria-controls="offcanvasMonCompte">Mon compte</a></li>
-    <li class="nav-item"><a href="#" class="nav-link link-light px-2" role="button">Log out</a></li>
-    <!-- mon compte component-->
-  </ul>
-</div>
-
 <!--nav bar-->
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
-  <a routerLink="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none ps-5">
+  <a routerLink="/home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 ps-5">
     Festivals<em>API</em>
     <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
   </a>
   <!--item au milieu-->
   <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
     <li >
-      <a routerLink="/" class="nav-link px-2 link-dark">Jeux</a>
+      <a routerLink="/jeux" class="nav-link px-2">Jeux</a>
     </li>
     <li >
-      <a routerLink="/" class="nav-link px-2 link-dark">BÃ©nÃ©voles</a>
+      <a routerLink="/" class="nav-link px-2">Bénévoles</a>
     </li>
     <li >
-      <a routerLink="/zones" class="nav-link px-2 link-dark">Zones</a>
+      <a routerLink="/zones" class="nav-link px-2">Zones</a>
     </li>
   </ul>
 
   <ul class="nav col-md-3 justify-content-end px-5">
     <!--si user est n'est pas connecter-->
-    <li class="nav-item" *ngIf="!isAuth"><a href="#" class="nav-link link-dark px-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Login</a></li>
+    <li class="nav-item" *ngIf="!isAuth"><a href="#" class="nav-link px-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Login</a></li>
     <!--si user est connecté  -->
-    <li class="nav-item" *ngIf="isAuth" (click)="logout()"><a href="#" class="nav-link link-dark px-2" role="button">Log out</a></li>
+    <li class="nav-item" *ngIf="isAuth" (click)="logout()"><a href="#" class="nav-link px-2" role="button">Log out</a></li>
     <!--sign in component-->
     <app-signin></app-signin>
   </ul>
-
-  <hr class="bg-gradient bg-dark" style="width: 100%; height:2px;">
 
 </header>
 

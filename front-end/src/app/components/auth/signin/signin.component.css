@@ -1,8 +1,13 @@
 .boutonDark{
   width: 100%;
-
-  background-color: black;
+  border-color: #323232;
+  background-color: #323232;
   color: white;
+}
+
+.offcanvas{
+  background-color: #9C27B0;
+  font-size: large;
 }
 
 .hrHeader{
