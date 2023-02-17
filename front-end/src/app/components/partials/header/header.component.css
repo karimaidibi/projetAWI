@@ -1,3 +1,41 @@
+header {
+  background-color: #9C27B0;
+  position: relative;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #9b59b6;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* Change font color of <a> to white and with no text decoration */
+a{
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+/* desactivate everything on hover for the class .d-flex */
+.d-flex:hover{
+  background-color: #9C27B0;
+  cursor: pointer;
+}
+
+
+
+a:hover{
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
 
 em{
@@ -16,7 +54,7 @@ em{
 }
 
 a:hover {
-  border-bottom: 1px solid black;
+  background-color: #323232;
   cursor: pointer;
 }
 
