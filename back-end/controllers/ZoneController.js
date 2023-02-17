@@ -73,6 +73,7 @@ module.exports = {
   update: (req,res)=>{
     const id = req.params.id // recuperer id du produit
     let zone = req.body // recuperer lobjet 
+    delete zone._id;
 
     //update la zone
     ZoneModel.updateOne({_id: id},{...zone, _id: id}, (err,data)=>{

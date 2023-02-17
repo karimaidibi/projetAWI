@@ -90,8 +90,10 @@ module.exports = {
     update: (req,res)=>{
         const id = req.params.id; // recupere id dans les parameteres de la requete
         const jeu = req.body; // recupere le body de la requete
+        delete jeu._id; // si ya un id dans la reponse json recu je le supprime (va etre regenere par mongodb)
+
         //update le jeu
-        BenevoleModel.updateOne({_id: id},{$set:{...jeu}}, (err,data)=>{
+        JeuModel.updateOne({_id: id},{$set:{...jeu}}, (err,data)=>{
             if(err){
                 return res.status(500).json({
                 status: 500,

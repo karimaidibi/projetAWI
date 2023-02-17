@@ -37,6 +37,7 @@ import { CreneauPipe } from './pipes/creneau.pipe';
 import { JeuPipe } from './pipes/jeu/jeu.pipe';
 import { NomJeuPipe } from './pipes/jeu/nom-jeu.pipe';
 import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
+import { ConfirmDialogComponent } from './components/partials/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
     CreneauPipe,
     JeuPipe,
     NomJeuPipe,
-    TypeJeuPipe
+    TypeJeuPipe,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

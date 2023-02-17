@@ -9,9 +9,16 @@ export class JeuDisplay {
     idZone!: string
     typeJeu!: string
     idTypeJeu!: string
+    isEdit!: boolean
+    isSelected!: boolean
 }
 
 export const COLUMNS_SCHEMA = [
+    {
+        key: "isSelected",
+        type: "isSelected",
+        label: ""
+    },
     {
         key: "nom",
         type: "text",

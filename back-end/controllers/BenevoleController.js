@@ -90,6 +90,7 @@ module.exports = {
     update: (req,res)=>{
         const id = req.params.id; // recupere id dans les parameteres de la requete
         const benevole = req.body; // recupere le body de la requete
+        delete benevole._id; // si ya un id dans la reponse json recu je le supprime (va etre regenere par mongodb)
         //update le benevole
         BenevoleModel.updateOne({_id: id},{$set:{...benevole}}, (err,data)=>{
             if(err){

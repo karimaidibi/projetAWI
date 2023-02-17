@@ -71,6 +71,7 @@ module.exports = {
   update: (req,res)=>{
     const id = req.params.id // recuperer id du produit
     let typeJeu = req.body // recuperer lobjet 
+    delete typeJeu._id // supprimer l'id de l'objet
 
     //update la typeJeu
     TypeJeuModel.updateOne({_id: id},{...typeJeu, _id: id}, (err,data)=>{
