@@ -134,5 +134,28 @@ module.exports = {
             });
         });
     },
+
+        /**
+     * removeMany : remove many benevole from the database
+     * first it will parse the body.ids of the request to get the list of id
+     * then it will remove all the benevole with the ids in the list
+     */
+         removeMany: (req,res)=>{
+            const ids = req.body; // recupere la liste des id dans le body de la requete
+            console.log(ids);
+            BenevoleModel.deleteMany({_id: {$in: ids}}, (err, data)=>{
+                if(err){
+                    return res.status(500).json({
+                        status: 500,
+                        message: 'Error when deleting many benevole',
+                        error: err
+                    });
+                }
+                return res.status(204).json({
+                    status: 204,
+                    message: 'benevoles deleted success!'
+                });
+            })
+        }
   
 }

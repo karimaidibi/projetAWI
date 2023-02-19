@@ -42,7 +42,7 @@ export class JeuxService {
     })
   }
 
-  createNewJeu(jeu: Jeu){
+  createJeu(jeu: Jeu){
     return new Promise((resolve,reject)=>{
       this.http.post(this.api+'/jeux',jeu).subscribe({
         next:(data:any)=>{
@@ -100,6 +100,29 @@ export class JeuxService {
         },
         complete:()=>{
           console.log("Suppression du jeu terminée")
+        }
+      })
+    })
+  }
+
+  /**
+  * deleteJeux
+  * @param ids : array of ids
+  * it will do a delete many request to the api
+  */
+  deleteJeux(ids: string[]){
+    return new Promise((resolve, reject)=>{
+      this.http.post(this.api+'/jeux/removeMany',ids).subscribe({
+        next:(data:any)=>{
+            this.getJeux()
+            resolve(data)
+          },
+        error:(err)=>{
+          console.log("Erreur de suppression des jeux (error): ", err)
+          reject(err)
+        },
+        complete:()=>{
+          console.log("Suppression des jeux terminée")
         }
       })
     })

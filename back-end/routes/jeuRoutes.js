@@ -25,4 +25,7 @@ router.put('/:id/typeJeu',JeuController.updateTypeJeuOfJeu)
 //delete un Jeux en particulier
 router.delete('/:id',JeuController.remove)
 
+//delete many Jeux
+router.post('/removeMany',JeuController.removeMany)
+
 module.exports = router;

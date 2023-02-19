@@ -1,1 +1,112 @@
-<p>benevoles works!</p>
+<article class="table-header">
+    <div>
+      <i>Everything is required</i>
+    </div>
+    <div>
+      <button
+        class="button-remove-rows"
+        mat-raised-button color="warn"
+        (click)="removeSelectedRows()"
+      >
+        Remove Rows
+      </button>
+      <button class="button-add-row" mat-raised-button color="accent" (click)="addRow()">
+        Add Row
+      </button>
+    </div>
+  </article>
+  <table mat-table [dataSource]="benevolesDisplay">
+    <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+      <!--- switch case on the col.key --->
+      <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.key">
+        <!---If key of column is isSelected--->
+        <span *ngSwitchCase="'isSelected'">
+          <mat-checkbox
+            (change)="selectAll($event)"
+            [checked]="isAllSelected()"
+            [indeterminate]="!isAllSelected() && isAnySelected()"
+          ></mat-checkbox>
+        </span>
+        <!-- Default case : the label of the column --->
+        <span *ngSwitchDefault>{{ col.label }}</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- If the user is not editing -->
+        <!--- switch case on the col.type --->
+        <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
+          <!---If type of column is isSelected--->
+          <ng-container *ngSwitchCase="'isSelected'">
+            <mat-checkbox
+              (change)="element.isSelected = $event.checked"
+              [checked]="element.isSelected"
+            ></mat-checkbox>
+          </ng-container>
+          <!---If type of column is isEdit--->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button mat-button (click)="element.isEdit = !element.isEdit">
+              Edit
+            </button>
+            <button
+              mat-button
+              class="button-remove"
+              (click)="removeRow(element._id)"
+            >
+              Delete
+            </button>
+          </div>
+          <!---If type of column is date--->
+          <span *ngSwitchCase="'date'">
+            {{ element[col.key] | date: 'mediumDate' }}
+          </span>
+          <!---Default case -->
+          <span *ngSwitchDefault>
+            {{ element[col.key] }}
+          </span>
+        </div>
+        <!-- If the user is editing -->
+        <!--- switch case on the col.type --->
+        <div [ngSwitch]="col.type" *ngIf="element.isEdit">
+          <!---If type of column is isSelected--->
+          <div *ngSwitchCase="'isSelected'"></div>
+          <!---If type of column is isEdit--->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button
+              mat-button
+              (click)="editRow(element)"
+              [disabled]="disableSubmit(element._id)"
+            >
+              Done
+            </button>
+            <button
+            mat-button
+            (click)="cancelEdit(element)"
+          >
+            Cancel
+          </button>
+          </div>
+          <!---If type of column is selectZone--->
+          <mat-form-field *ngSwitchCase="'selectZone'" appearance="fill" >
+            <mat-label>Select Zone</mat-label>
+            <mat-select [(ngModel)]="element.idZone" [required]="col.required" #ngModel="ngModel" (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)">
+              <mat-option *ngFor="let zone of zones" [value]="zone._id">{{zone.nom}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!--Default case : other column types -->
+          <mat-form-field class="form-input" *ngSwitchDefault>
+            <input
+              matInput
+              [required]="col.required"
+              [pattern]="col.pattern"
+              [type]="col.type"
+              [(ngModel)]="element[col.key]"
+              #ngModel="ngModel"
+              (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)"
+            />
+          </mat-form-field>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  

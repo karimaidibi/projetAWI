@@ -1,25 +1,4 @@
 show ('dbs')
 use("festivals")
 
-db.jeus.insertOne(
-    
-    {
-        "nom" : "black jack",
-        "typeJeu" : 
-                {
-                    "_id": {
-                    "$oid": "63dff15b9b8de3c23f3aaab2"
-                    },
-                    "type": "expert",
-                    "__v": 0
-                },
-        "zone" : 
-                {
-                    "_id": {
-                    "$oid": "63effcc2e1273e5733e337b4"
-                    },
-                    "nom": "Esplanade-Gauche 2"
-                }
-    }
-
-)
+db.benevoles.find({}).pretty()

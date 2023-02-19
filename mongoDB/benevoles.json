@@ -1,42 +1,40 @@
 [
-    {
-      "_id": {
-        "$oid": "63dfebde543e38e128b91bc1"
-      },
-      "prenom": "joe",
-      "nom": "sleepy",
-      "email": "",
-      "affectations": [
-        {
-          "zone": {
-            "id": 1
-          },
-          "creneau": {
-            "date_debut": "13h",
-            "date_fin": "14h"
-          }
+  {
+    "prenom": "joe",
+    "nom": "sleepy",
+    "email": "",
+    "affectations": [
+      {
+        "zone": {
+          "id": 1,
+          "nom": "zone 1"
+        },
+        "creneau": {
+          "debut_creneau": "13h",
+          "fin_creneau": "14h",
+          "date": "2019-07-01"
         }
-      ],
-      "__v": 0
-    },
-    {
-      "_id": {
-        "$oid": "63dff30c9b8de3c23f3aaabe"
-      },
-      "prenom": "joe",
-      "nom": "sleepy",
-      "email": "js",
-      "affectations": [
-        {
-          "zone": {
-            "id": 1
-          },
-          "creneau": {
-            "date_debut": "12h",
-            "date_fin": "13h"
-          }
+      }
+    ],
+    "__v": 0
+  },
+  {
+    "prenom": "joe",
+    "nom": "sleepy",
+    "email": "js",
+    "affectations": [
+      {
+        "zone": {
+          "id": 1,
+          "nom": "zone1"
+        },
+        "creneau": {
+          "debut_creneau": "13h",
+          "fin_creneau": "14h",
+          "date": "2019-07-01"
         }
-      ],
-      "__v": 0
-    }
-  ]
+      }
+    ],
+    "__v": 0
+  }
+]

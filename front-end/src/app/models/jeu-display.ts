@@ -22,17 +22,20 @@ export const COLUMNS_SCHEMA = [
     {
         key: "nom",
         type: "text",
-        label: "Nom"
+        label: "Nom",
+        required: true
     },
     {
         key: "typeJeu",
-        type: "text",
-        label: "Type"
+        type: "selectTypeJeu",
+        label: "Type",
+        required: true
     },
     {
         key: "zone",
-        type: "text",
-        label: "Zone"
+        type: "selectZone",
+        label: "Zone",
+        required: false
     },
     {
       key: "isEdit",

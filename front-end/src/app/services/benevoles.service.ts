@@ -43,7 +43,7 @@ export class BenevolesService {
     })
   }
 
-  createNewBenevole(benevole: Benevole){
+  createBenevole(benevole: Benevole){
     return new Promise((resolve,reject)=>{
       this.http.post(this.api+'/benevoles',benevole).subscribe({
         next:(data:any)=>{
@@ -105,5 +105,29 @@ export class BenevolesService {
       })
     })
   }
+
+  /**
+  * deleteBenevoles
+  * @param ids : array of benevoles ids
+  * @returns Promise 
+  */
+   deleteBenevoles(ids: string[]){
+    return new Promise((resolve, reject)=>{
+      this.http.post(this.api+'/benevoles/removeMany',ids).subscribe({
+        next:(data:any)=>{
+            this.getBenevoles()
+            resolve(data)
+          },
+        error:(err)=>{
+          console.log("Erreur de suppression des benevoles (error): ", err)
+          reject(err)
+        },
+        complete:()=>{
+          console.log("Suppression des benevoles terminée")
+        }
+      })
+    })
+  }
+
 
 }
