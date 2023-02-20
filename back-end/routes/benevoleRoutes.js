@@ -16,7 +16,10 @@ router.post('/',BenevoleController.create)
 router.put('/:id',BenevoleController.update)
 
 // update les affectations d'un benevole en question
-router.put('/:id/affectations',BenevoleController.updateAffectation)
+router.put('/:id/affectations',BenevoleController.updateAffectations)
+
+// update les affectations d'un benevole en question
+router.put('/:id/affectation',BenevoleController.removeAffectation)
 
 //delete un benevole en particulier
 router.delete('/:id',BenevoleController.remove)

@@ -1,6 +1,6 @@
 <article class="table-header">
-    <div>
-      <i>CRUD BENEVOLE</i>
+    <div *ngIf="benevole">
+      <i>Les affectations du Bénévole {{benevole.email}}</i>
     </div>
     <div>
       <button
@@ -14,8 +14,8 @@
         Add Row
       </button>
     </div>
-  </article>
-  <table mat-table [dataSource]="benevolesDisplay">
+</article>
+<table mat-table [dataSource]="benevolesDisplay">
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
       <!--- switch case on the col.key --->
       <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.key">
@@ -43,28 +43,20 @@
           </ng-container>
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
-            <button mat-icon-button color="accent" (click)="element.isEdit = !element.isEdit">
-              <mat-icon>edit</mat-icon>
+            <button mat-button (click)="element.isEdit = !element.isEdit">
+              Edit
             </button>
             <button
-              mat-icon-button
-              color="warn"
+              mat-button
               class="button-remove"
-              (click)="removeRow(element._id)"
+              (click)="removeRow(element)"
             >
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button
-              mat-mini-fab 
-              color="primary"
-              [routerLink]="['/single-benevole-affectations', element._id]"
-            >
-              <mat-icon>timer</mat-icon>
+              Delete
             </button>
           </div>
-          <!---If type of column is affectations -->
-          <span *ngSwitchCase="'affectations'">
-            {{ element.affectations.length }}
+          <!---If type of column is date--->
+          <span *ngSwitchCase="'date'">
+            {{ element[col.key] | date: 'mediumDate' }}
           </span>
           <!---Default case -->
           <span *ngSwitchDefault>
@@ -92,9 +84,20 @@
             Cancel
           </button>
           </div>
-          <!---If type of column is affectations -->
-          <span *ngSwitchCase="'affectations'">
-            {{ element.affectations.length }}
+          <!---If type of column is selectZone--->
+          <mat-form-field *ngSwitchCase="'selectZone'" appearance="fill" >
+            <mat-label>Select Zone</mat-label>
+            <mat-select [(ngModel)]="element.idZone" [required]="col.required" #ngModel="ngModel" (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)">
+              <mat-option *ngFor="let zone of zones" [value]="zone._id">{{zone.nom}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+            <!---If type of column is email--->
+            <span *ngSwitchCase="'email'">
+                {{ element[col.key] }}
+              </span>
+          <!---If type of column is text--->
+          <span *ngSwitchCase="'text'">
+            {{ element[col.key] }}
           </span>
           <!--Default case : other column types -->
           <mat-form-field class="form-input" *ngSwitchDefault>
@@ -113,5 +116,5 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+</table>
   

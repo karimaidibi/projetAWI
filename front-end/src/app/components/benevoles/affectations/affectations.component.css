@@ -1,0 +1,50 @@
+.mat-row:hover{
+    background-color: #968c8c7a;
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    border-color: currentColor;
+    font-weight: bold;
+  }
+  
+  p {
+  font-family: Lato;
+  }
+  table {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 25px;
+  }
+  .btn-edit {
+  text-align: right;
+  }
+  h2 {
+  text-align: center;
+  padding-top: 20px;
+  }
+  
+  .table-header {
+  width: 90%;
+  margin: auto;
+  text-align: right;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  }
+  
+  
+  .button-remove-rows {
+  margin-right: 5px;
+  }
+  
+  .button-remove {
+  color: red;
+  }
+  
+  ::ng-deep .mat-form-field-infix {
+  width: 100% important;
+  }
+  
+  .form-input {
+  padding-right: 5px;
+  }

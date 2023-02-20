@@ -1,40 +1,38 @@
 [
   {
-    "prenom": "joe",
-    "nom": "sleepy",
-    "email": "",
+    "prenom": "karim ",
+    "nom": "aidibi",
+    "email": "email@gmail.coù",
     "affectations": [
       {
         "zone": {
-          "id": 1,
+          "_id": 1,
           "nom": "zone 1"
         },
         "creneau": {
-          "debut_creneau": "13h",
-          "fin_creneau": "14h",
+          "debut_creneau": "13:00",
+          "fin_creneau": "14:00",
           "date": "2019-07-01"
         }
       }
-    ],
-    "__v": 0
+    ]
   },
   {
     "prenom": "joe",
     "nom": "sleepy",
-    "email": "js",
+    "email": "js@hotmail.fr",
     "affectations": [
       {
         "zone": {
-          "id": 1,
-          "nom": "zone1"
+          "_id": 5,
+          "nom": "zone5"
         },
         "creneau": {
-          "debut_creneau": "13h",
-          "fin_creneau": "14h",
+          "debut_creneau": "13:00",
+          "fin_creneau": "14:00",
           "date": "2019-07-01"
         }
       }
-    ],
-    "__v": 0
+    ]
   }
 ]

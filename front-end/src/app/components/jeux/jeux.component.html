@@ -15,10 +15,11 @@
     </button>
   </div>
 </article>
-<table mat-table [dataSource]="jeuxDisplay">
+
+<table mat-table [dataSource]="jeuxDisplay" matSort >
   <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
     <!--- switch case on the col.key --->
-    <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.key">
+    <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.key" mat-sort-header>
       <!---If key of column is isSelected--->
       <span *ngSwitchCase="'isSelected'">
         <mat-checkbox

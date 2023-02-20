@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Benevole } from '../models/benevole';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Affectation } from '../models/affectation';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,22 @@ export class BenevolesService {
   // observable subject
   benevoles$ = new Subject<Benevole[]>();
 
+  // benevole
+  benevole!: Benevole;
+
+  // observable subject benevole
+  benevole$ = new Subject<Benevole>();
+
   constructor(
     private http: HttpClient
   ) { }
 
   emitBenevoles() {
     this.benevoles$.next(this.benevoles);
+  }
+
+  emitBenevole() {
+    this.benevole$.next(this.benevole);
   }
 
   getBenevoles(){
@@ -41,6 +52,22 @@ export class BenevolesService {
       }
 
     })
+  }
+
+  getBenevoleById(id: string){
+      this.http.get(this.api+'/benevoles/'+id).subscribe({
+        next:(data: any)=>{
+          if(data.status===200){
+            this.benevole = data.result
+            this.emitBenevole()
+          }else{
+            console.log("Erreur de chargement du benevole (status !=200): ",data.message)
+          }
+        },
+        error:(err)=>{
+          console.log("Erreur de chargement du benevole (error): "+err)
+        }
+      })
   }
 
   createBenevole(benevole: Benevole){
@@ -129,5 +156,54 @@ export class BenevolesService {
     })
   }
 
+  // Affectations Management
+
+  updateAffectations(id: string, affectations : Affectation[]){
+    return new Promise((resolve, reject)=>{
+      this.http.put(this.api+'/benevoles/'+id+'/affectations', affectations).subscribe({
+        next:(data:any)=>{
+          if(data.status===200){
+            this.getBenevoles()
+            this.getBenevoleById(id)
+            resolve(data)
+          }else{
+            console.log("Erreur de mise à jour des affectations du benevole (status !=200): ", data.message)
+            reject(data.message)
+          }
+        },
+        error:(err)=>{
+          console.log("Erreur de mise à jour des affectations du benevole (error): ", err)
+          reject(err)
+        },
+        complete:()=>{
+          console.log("Mise à jour des affectations du benevole terminée")
+        }
+      })
+    })
+  }
+
+  deleteAffectation(id: string, affectation : Affectation){
+    return new Promise((resolve, reject)=>{
+      this.http.put(this.api+'/benevoles/'+id+'/affectation', affectation).subscribe({
+        next:(data:any)=>{
+          if(data.status===200){
+            this.getBenevoles()
+            this.getBenevoleById(id)
+            resolve(data)
+          }else{
+            console.log("Erreur de supression de l'affectation du benevole (status !=200): ", data.message)
+            reject(data.message)
+          }
+        },
+        error:(err)=>{
+          console.log("Erreur de supression de l'affectation du benevole (error): ", err)
+          reject(err)
+        },
+        complete:()=>{
+          console.log("Supression de l'affectation du benevole terminée")
+        }
+      })
+    })
+  }
 
 }

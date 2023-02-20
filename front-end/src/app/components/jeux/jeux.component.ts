@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,9 @@ import { TypeJeu } from 'src/app/models/type-jeu';
 import { TypesJeuxService } from 'src/app/services/types-jeux.service';
 import { ZonesService } from 'src/app/services/zones.service';
 import { NgModel } from '@angular/forms';
-
+import { MatSort, Sort } from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
 
 @Component({
   selector: 'festivalJeux-jeux',
@@ -39,10 +41,13 @@ export class JeuxComponent implements OnInit, OnDestroy {
 
   rowNumber: number = 0;
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(private jeuxService: JeuxService,
     public dialog: MatDialog,
     private typesJeuxService: TypesJeuxService,
-    private zonesService: ZonesService
+    private zonesService: ZonesService,
+    private _liveAnnouncer: LiveAnnouncer
     ) { }
 
   ngOnInit(): void {
@@ -88,6 +93,12 @@ export class JeuxComponent implements OnInit, OnDestroy {
     this.zonesService.getZones()
   
   }
+
+  ngAfterViewInit() {
+    this.jeuxDisplay.sort = this.sort;
+
+  }
+
 
   // fill the jeuxDisplay array with the jeux array
   fillJeuxDisplay(){
@@ -152,10 +163,11 @@ export class JeuxComponent implements OnInit, OnDestroy {
     if (Number(row._id) < 0) {
       this.jeuxDisplay.data = this.jeuxDisplay.data.filter((jeu: JeuDisplay) => jeu._id !== row._id);
     } else {
-      this.fillJeuxDisplay()
       row.isEdit = false;
+      this.fillJeuxDisplay()
     }
-    this.valid[row._id] = {};
+    // delete the valid object of the row
+    delete this.valid[row._id]
   }
 
   /**
@@ -327,6 +339,19 @@ export class JeuxComponent implements OnInit, OnDestroy {
       }
     }
     return true
+  }
+
+  /** Announce the change in sort state for assistive technology. */
+  announceSortChange(sortState: any) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
   ngOnDestroy(): void {

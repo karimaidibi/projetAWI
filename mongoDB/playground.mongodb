@@ -1,4 +1,43 @@
 show ('dbs')
 use("festivals")
 
-db.benevoles.find({}).pretty()
+db.benevoles.insertMany(
+    [
+  {
+    "prenom": "karim ",
+    "nom": "aidibi",
+    "email": "email@gmail.coù",
+    "affectations": [
+      {
+        "zone": {
+          "_id": 1,
+          "nom": "zone 1"
+        },
+        "creneau": {
+          "debut_creneau": "13:00",
+          "fin_creneau": "14:00",
+          "date": "2019-07-01"
+        }
+      }
+    ]
+  },
+  {
+    "prenom": "joe",
+    "nom": "sleepy",
+    "email": "js@hotmail.fr",
+    "affectations": [
+      {
+        "zone": {
+          "_id": 5,
+          "nom": "zone5"
+        },
+        "creneau": {
+          "debut_creneau": "13:00",
+          "fin_creneau": "14:00",
+          "date": "2019-07-01"
+        }
+      }
+    ]
+  }
+]
+)

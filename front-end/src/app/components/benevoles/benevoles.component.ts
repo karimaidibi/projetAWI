@@ -2,17 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { JeuxService } from 'src/app/services/jeux.service';
 import { ConfirmDialogComponent } from '../partials/confirm-dialog/confirm-dialog.component';
-import { Zone } from 'src/app/models/zone';
-import { ZonesService } from 'src/app/services/zones.service';
 import { NgModel } from '@angular/forms';
-import { Benevole } from 'src/app/models/benevole';
-import { BenevoleDisplay, BENEVOLE_COLUMNS_SCHEMA } from 'src/app/models/benevole-display';
+import { Benevole} from 'src/app/models/benevole';
+import { CrudBenevoleDisplay, BENEVOLE_COLUMNS_SCHEMA } from 'src/app/models/crud-benevole-display';
 import { BenevolesService } from 'src/app/services/benevoles.service';
-import { Affectation } from 'src/app/models/affectation';
-import { Creneau } from 'src/app/models/creneau';
-
 @Component({
   selector: 'festivalJeux-benevoles',
   templateUrl: './benevoles.component.html',
@@ -22,22 +16,17 @@ export class BenevolesComponent implements OnInit {
 
   benevolesSub!: Subscription;
   benevoles!: Benevole[];
-  benevolesDisplay: MatTableDataSource<BenevoleDisplay> = new MatTableDataSource<BenevoleDisplay>();
+  benevolesDisplay: MatTableDataSource<CrudBenevoleDisplay> = new MatTableDataSource<CrudBenevoleDisplay>();
 
   displayedColumns: string[] = BENEVOLE_COLUMNS_SCHEMA.map((column: any) => column.key);
   columnsSchema : any = BENEVOLE_COLUMNS_SCHEMA;
 
   valid: any = {};
 
-  // zones data
-  zones: Zone[] = [];
-  zonesSub!: Subscription;
-
   rowNumber: number = 0;
 
   constructor(
     public dialog: MatDialog,
-    private zonesService: ZonesService,
     private benevolesService: BenevolesService
   ) { }
 
@@ -56,38 +45,18 @@ export class BenevolesComponent implements OnInit {
       }
     })
     this.benevolesService.getBenevoles()
-
-    //Get zones
-    this.zonesSub = this.zonesService.zones$.subscribe({
-      next:(zones : any)=>{
-        this.zones = zones
-      },
-      error: (err)=>{
-        console.log(err)
-      },
-      complete :()=>{
-      }
-    })
-    this.zonesService.getZones()
   }
 
   /**
    * fill the benevoles display table from the benevoles array
-   * for each benevole, create one or many BenevoleDisplay object
-   * it depends on the number of affectations of the benevole
-   * and push it in the benevolesDisplay array
+   * for each benevole, create a BenevoleDisplay object
+   * and push it in the benevolesDisplay  mat table data source
    */
   fillBenevolesDisplay(){
-    this.benevolesDisplay = new MatTableDataSource<BenevoleDisplay>();
+    this.benevolesDisplay = new MatTableDataSource<CrudBenevoleDisplay>();
     this.benevoles.forEach((benevole: Benevole) => {
-      if(benevole.affectations.length == 0){
-        this.benevolesDisplay.data.push(new BenevoleDisplay(benevole, benevole.affectations[0]))
-      }else{
-        benevole.affectations.forEach((affectation: Affectation) => {
-          this.benevolesDisplay.data.push(new BenevoleDisplay(benevole, affectation))
-        });
-      }
-    });
+        this.benevolesDisplay.data.push(new CrudBenevoleDisplay(benevole))
+    })
   }
 
   addRow() {
@@ -96,24 +65,10 @@ export class BenevolesComponent implements OnInit {
       prenom : false,
       nom: false,
       email: false,
-      zone: false,
-      debut_creneau: false,
-      fin_creneau: false,
-      date: false,
     }
-    let benevoleDisplayRow : BenevoleDisplay = {
-      _id: this.rowNumber.toString(),
-      prenom : "",
-      nom: "",
-      email: "",
-      idZone: "",
-      zone: "",
-      debut_creneau: "",
-      fin_creneau: "",
-      date: "",
-      isEdit: true,
-      isSelected: false,
-    }
+    let benevole = new Benevole(this.rowNumber.toString(),"","","",[]);
+    let benevoleDisplayRow = new CrudBenevoleDisplay(benevole);
+    benevoleDisplayRow.isEdit = true;
     this.benevolesDisplay.data = [benevoleDisplayRow, ...this.benevolesDisplay.data];
   }
 
@@ -126,8 +81,7 @@ export class BenevolesComponent implements OnInit {
    * else it will call the function updateBenevole() which will call the service to update the benevole
    * 
    */
-  editRow(row: BenevoleDisplay){
-    console.log(this.valid)
+  editRow(row: CrudBenevoleDisplay){
     let benevole = this.createBenevoleFromDisplay(row);
     if(Number(row._id) < 0){
       this.createBenevole(row,benevole)
@@ -141,9 +95,9 @@ export class BenevolesComponent implements OnInit {
  * @param row 
  * 
  */
-    cancelEdit(row: BenevoleDisplay) {
+  cancelEdit(row: CrudBenevoleDisplay) {
     if (Number(row._id) < 0) {
-      this.benevolesDisplay.data = this.benevolesDisplay.data.filter((benevole: BenevoleDisplay) => benevole._id !== row._id);
+      this.benevolesDisplay.data = this.benevolesDisplay.data.filter((benevole: CrudBenevoleDisplay) => benevole._id !== row._id);
     } else {
       this.fillBenevolesDisplay()
       row.isEdit = false;
@@ -156,29 +110,16 @@ export class BenevolesComponent implements OnInit {
    * @param row
    * @returns Benevole
    * it will create a Benevole Object from the BenevoleDisplay Object
-   * it should fill the affectations array of the Benevole Object with all the affectations of the BenevoleDisplay Object
-   * 
+   * and give it it's array of affectations from the Benevole Object
   */
-  createBenevoleFromDisplay(row: BenevoleDisplay): Benevole{
-    let affectations: Affectation[] = [];
-    this.benevolesDisplay.data.forEach((benevoleDisplay: BenevoleDisplay) => {
-      if(benevoleDisplay._id == row._id){
-      // create a Zone object from the zone field of the benevoleDisplay
-      let zone : Zone = new Zone("","");
-      if (row.idZone !== "") {
-        // given the idZone form the row, find the zone corresponding of the id from the zones array
-        let tempZone : Zone | undefined = this.zones.find((zone: Zone) => zone._id === row.idZone)
-        if (tempZone !== undefined) {
-          zone = tempZone
-        }
+  createBenevoleFromDisplay(row: CrudBenevoleDisplay): Benevole{
+    let benevole = new Benevole(row._id,row.prenom,row.nom,row.email,[]);
+    this.benevoles.forEach((benevoleItem: Benevole) => {
+      if(benevoleItem._id === benevole._id){
+        benevole.affectations = benevoleItem.affectations
       }
-        let creneau = new Creneau(benevoleDisplay.debut_creneau, benevoleDisplay.fin_creneau,benevoleDisplay.date);
-        let affectation = new Affectation(zone, creneau);
-        affectations.push(affectation);
-      }
-    });
-    let benevole = new Benevole(row._id,row.prenom, row.nom, row.email, affectations);
-    return benevole;
+    })
+    return benevole
   }
 
   removeRow(_id: string) {
@@ -214,7 +155,7 @@ export class BenevolesComponent implements OnInit {
    * that will call the service to delete the benevoles
    * else it will do nothing
    */ 
-     removeSelectedRows() {
+    removeSelectedRows() {
       this.dialog
         .open(ConfirmDialogComponent)
         .afterClosed()
@@ -236,7 +177,7 @@ export class BenevolesComponent implements OnInit {
    * if the update is successful it will change the isEdit property to false to stop the edition mode
    * else it will display an error message
   */
-  updateBenevole(row: BenevoleDisplay, benevole: Benevole) {
+  updateBenevole(row: CrudBenevoleDisplay, benevole: Benevole) {
     this.benevolesService.updateBenevole(row._id, benevole).then(()=>{
       // change the isEdit property to false to stop the edition mode
       row.isEdit = false
@@ -255,7 +196,7 @@ export class BenevolesComponent implements OnInit {
    * and it will change the _id property to the id of the created benevole
    * else it will display an error message
   */
-   createBenevole(row: BenevoleDisplay, benevole: Benevole) {
+   createBenevole(row: CrudBenevoleDisplay, benevole: Benevole) {
     this.benevolesService.createBenevole(benevole).then(()=>{
       // change the isEdit property to false to stop the edition mode
       row.isEdit = false
@@ -318,7 +259,6 @@ export class BenevolesComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.benevolesSub.unsubscribe()
-    this.zonesSub.unsubscribe()
   }
 
 

@@ -31,7 +31,7 @@ export class BenevoleDisplay {
 
 }
 
-export const BENEVOLE_COLUMNS_SCHEMA = [
+export const BENEVOLE_DISPLAY_COLUMNS_SCHEMA = [
     {
         key: "isSelected",
         type: "isSelected",

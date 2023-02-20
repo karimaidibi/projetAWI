@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,9 @@ import { JeuPipe } from './pipes/jeu/jeu.pipe';
 import { NomJeuPipe } from './pipes/jeu/nom-jeu.pipe';
 import { TypeJeuPipe } from './pipes/jeu/type-jeu.pipe';
 import { ConfirmDialogComponent } from './components/partials/confirm-dialog/confirm-dialog.component';
+import { MatSortModule } from '@angular/material/sort';
+import { AffectationsComponent } from './components/benevoles/affectations/affectations.component';
+import { SingleBenevoleAffectationsComponent } from './components/benevoles/single-benevole-affectations/single-benevole-affectations.component';
 
 
 @NgModule({
@@ -65,7 +69,9 @@ import { ConfirmDialogComponent } from './components/partials/confirm-dialog/con
     JeuPipe,
     NomJeuPipe,
     TypeJeuPipe,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    AffectationsComponent,
+    SingleBenevoleAffectationsComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +89,8 @@ import { ConfirmDialogComponent } from './components/partials/confirm-dialog/con
     MatDialogModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatSortModule,
+    MatIconModule
   ],
   providers: [
     // interceptor, sa classe,
