@@ -12,6 +12,9 @@ import { BenevolesService } from 'src/app/services/benevoles.service';
 import { Affectation } from 'src/app/models/affectation';
 import { Creneau } from 'src/app/models/creneau';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+// Error Dialog
+import { ErrorDialogComponent } from '../../partials/error-dialog/error-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'festivalJeux-single-benevole-affectations',
@@ -43,6 +46,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
     private benevolesService: BenevolesService,
     private route: ActivatedRoute,
     private router :  Router,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -136,7 +140,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    * @param row
    * it will call the function createBenevoleFromDisplay that will create a Benevole Object from the BenevoleDisplay Object
    * it will call the function updateAffectations() which will call the service to update the affectations of the benevole
-   * 
+   *
    */
   editRow(row: BenevoleDisplay){
     let benevole = this.createBenevoleFromDisplay(row);
@@ -145,8 +149,8 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
 
   /**
  * Cancel the edit of a row
- * @param row 
- * 
+ * @param row
+ *
  */
   cancelEdit(row: BenevoleDisplay) {
     if (Number(row._id) < 0) {
@@ -165,7 +169,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    * @returns Benevole
    * it will create a Benevole Object from the BenevoleDisplay Object
    * it should fill the affectations array of the Benevole Object with all the affectations of the BenevoleDisplay Object
-   * 
+   *
   */
   createBenevoleFromDisplay(row: BenevoleDisplay): Benevole{
     let affectations: Affectation[] = [];
@@ -182,19 +186,22 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    * @param row
    * @returns Affectation
   */
-  createAffectationFromBenevoleDisplay(row: BenevoleDisplay): Affectation{
-    // create a Zone object from the zone field of the benevoleDisplay
-    let zone : Zone = new Zone("","");
-    if (row.idZone !== "") {
-      // given the idZone form the row, find the zone corresponding of the id from the zones array
-      let tempZone : Zone | undefined = this.zones.find((zone: Zone) => zone._id === row.idZone)
-      if (tempZone !== undefined) {
-        zone = tempZone
-      }
+  createAffectationFromBenevoleDisplay(row: BenevoleDisplay): Affectation {
+    const debutCreneau = new Date(row.date + " " + row.debut_creneau);
+    const finCreneau = new Date(row.date + " " + row.fin_creneau);
+
+    if (finCreneau.getTime() <= debutCreneau.getTime()) {
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'End time must be after start time',
+        duration: 3000,
+      });
+      throw new Error('End time must be after start time');
     }
-    let creneau = new Creneau(row.debut_creneau, row.fin_creneau,row.date);
-    let affectation = new Affectation(zone, creneau);
-    return affectation;
+
+    const zone: Zone = this.zones.find((zone: Zone) => zone._id === row.idZone) || new Zone('', '');
+    const creneau: Creneau = new Creneau(row.debut_creneau, row.fin_creneau, row.date);
+    return new Affectation(zone, creneau);
+
   }
 
   removeRow(row: BenevoleDisplay) {
@@ -231,7 +238,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    * if the user confirm the deletion it will call the function deleteAffectation(_id, affectation) for each selected row
    * that will call the service to delete the affectation of the benevole
    * else it will do nothing
-   */ 
+   */
   removeSelectedRows() {
     this.dialog
       .open(ConfirmDialogComponent)

@@ -43,6 +43,8 @@ import { ConfirmDialogComponent } from './components/partials/confirm-dialog/con
 import { MatSortModule } from '@angular/material/sort';
 import { AffectationsComponent } from './components/benevoles/affectations/affectations.component';
 import { SingleBenevoleAffectationsComponent } from './components/benevoles/single-benevole-affectations/single-benevole-affectations.component';
+import { ErrorDialogComponent } from './components/partials/error-dialog/error-dialog.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -71,7 +73,8 @@ import { SingleBenevoleAffectationsComponent } from './components/benevoles/sing
     TypeJeuPipe,
     ConfirmDialogComponent,
     AffectationsComponent,
-    SingleBenevoleAffectationsComponent
+    SingleBenevoleAffectationsComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +93,8 @@ import { SingleBenevoleAffectationsComponent } from './components/benevoles/sing
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule,
   ],
   providers: [
     // interceptor, sa classe,

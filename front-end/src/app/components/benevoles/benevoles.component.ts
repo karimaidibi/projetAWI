@@ -79,7 +79,7 @@ export class BenevolesComponent implements OnInit {
    * then it will call the function createBenevoleFromDisplay that will create a Benevole Object from the BenevoleDisplay Object
    * if the id of the jeu is < 0 it will call the function createBenevole() which will call the service to create the Benevole
    * else it will call the function updateBenevole() which will call the service to update the benevole
-   * 
+   *
    */
   editRow(row: CrudBenevoleDisplay){
     let benevole = this.createBenevoleFromDisplay(row);
@@ -92,8 +92,8 @@ export class BenevolesComponent implements OnInit {
 
   /**
  * Cancel the edit of a row
- * @param row 
- * 
+ * @param row
+ *
  */
   cancelEdit(row: CrudBenevoleDisplay) {
     if (Number(row._id) < 0) {
@@ -154,7 +154,7 @@ export class BenevolesComponent implements OnInit {
    * if the user confirm the deletion it will retrieve the ids of selected rows and call the function deleteBenevoles(benevolesIds)
    * that will call the service to delete the benevoles
    * else it will do nothing
-   */ 
+   */
     removeSelectedRows() {
       this.dialog
         .open(ConfirmDialogComponent)
