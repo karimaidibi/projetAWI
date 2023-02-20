@@ -7,6 +7,9 @@ import { NgModel } from '@angular/forms';
 import { Benevole} from 'src/app/models/benevole';
 import { CrudBenevoleDisplay, BENEVOLE_COLUMNS_SCHEMA } from 'src/app/models/crud-benevole-display';
 import { BenevolesService } from 'src/app/services/benevoles.service';
+import { Zone } from 'src/app/models/zone';
+import { Creneau } from 'src/app/models/creneau';
+import { Affectation } from 'src/app/models/affectation';
 @Component({
   selector: 'festivalJeux-benevoles',
   templateUrl: './benevoles.component.html',
@@ -113,7 +116,10 @@ export class BenevolesComponent implements OnInit {
    * and give it it's array of affectations from the Benevole Object
   */
   createBenevoleFromDisplay(row: CrudBenevoleDisplay): Benevole{
-    let benevole = new Benevole(row._id,row.prenom,row.nom,row.email,[]);
+    let zone = new Zone("","")
+    let creneau = new Creneau("","","")
+    let affectation = new Affectation(zone,creneau)
+    let benevole = new Benevole(row._id,row.prenom,row.nom,row.email,[affectation]);
     this.benevoles.forEach((benevoleItem: Benevole) => {
       if(benevoleItem._id === benevole._id){
         benevole.affectations = benevoleItem.affectations
