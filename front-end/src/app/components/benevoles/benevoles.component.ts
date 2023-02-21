@@ -10,12 +10,23 @@ import { BenevolesService } from 'src/app/services/benevoles.service';
 import { Zone } from 'src/app/models/zone';
 import { Creneau } from 'src/app/models/creneau';
 import { Affectation } from 'src/app/models/affectation';
+// auth
+import { AuthService } from './../../services/auth.service';
+// Error Dialog
+import { ErrorDialogComponent } from './../partials/error-dialog/error-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 @Component({
   selector: 'festivalJeux-benevoles',
   templateUrl: './benevoles.component.html',
   styleUrls: ['./benevoles.component.css']
 })
 export class BenevolesComponent implements OnInit {
+
+  // auth
+  userId! : any
+  isAuth! : boolean
 
   benevolesSub!: Subscription;
   benevoles!: Benevole[];
@@ -30,11 +41,13 @@ export class BenevolesComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private benevolesService: BenevolesService
+    private benevolesService: BenevolesService,
+    private authService : AuthService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
-
+    this.verifSignIn()
     //Get benevoles
     this.benevolesSub = this.benevolesService.benevoles$.subscribe({
       next:(benevoles : any)=>{
@@ -50,6 +63,19 @@ export class BenevolesComponent implements OnInit {
     this.benevolesService.getBenevoles()
   }
 
+  //assigner is auth a true si user est connecté
+  verifSignIn() : void{
+    this.authService.isAuth$.subscribe(
+      (bool: boolean)=>{
+        this.isAuth = bool
+        if(bool){
+          // get user id
+          this.userId = this.authService.userId
+        }
+      }
+    )
+  }
+
   /**
    * fill the benevoles display table from the benevoles array
    * for each benevole, create a BenevoleDisplay object
@@ -63,16 +89,27 @@ export class BenevolesComponent implements OnInit {
   }
 
   addRow() {
-    this.rowNumber--;
-    this.valid[this.rowNumber] = {
-      prenom : false,
-      nom: false,
-      email: false,
+    // if the user is not connected, he can't add a row
+    if(this.isAuth){
+      this.rowNumber--;
+      this.valid[this.rowNumber] = {
+        prenom : false,
+        nom: false,
+        email: false,
+      }
+      let benevole = new Benevole(this.rowNumber.toString(),"","","",[]);
+      let benevoleDisplayRow = new CrudBenevoleDisplay(benevole);
+      benevoleDisplayRow.isEdit = true;
+      this.benevolesDisplay.data = [benevoleDisplayRow, ...this.benevolesDisplay.data];
     }
-    let benevole = new Benevole(this.rowNumber.toString(),"","","",[]);
-    let benevoleDisplayRow = new CrudBenevoleDisplay(benevole);
-    benevoleDisplayRow.isEdit = true;
-    this.benevolesDisplay.data = [benevoleDisplayRow, ...this.benevolesDisplay.data];
+    else{
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to add a row',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to add a row');
+    }
   }
 
   /**
@@ -85,11 +122,21 @@ export class BenevolesComponent implements OnInit {
    *
    */
   editRow(row: CrudBenevoleDisplay){
-    let benevole = this.createBenevoleFromDisplay(row);
-    if(Number(row._id) < 0){
-      this.createBenevole(row,benevole)
+    // if the user is not connected, he can't edit a row
+    if(this.isAuth){
+      let benevole = this.createBenevoleFromDisplay(row);
+      if(Number(row._id) < 0){
+        this.createBenevole(row,benevole)
+      }else{
+        this.updateBenevole(row,benevole)
+      }
     }else{
-      this.updateBenevole(row,benevole)
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to edit a row',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to edit a row');
     }
   }
 
@@ -116,27 +163,47 @@ export class BenevolesComponent implements OnInit {
    * and give it it's array of affectations from the Benevole Object
   */
   createBenevoleFromDisplay(row: CrudBenevoleDisplay): Benevole{
-    let zone = new Zone("","")
-    let creneau = new Creneau("","","")
-    let affectation = new Affectation(zone,creneau)
-    let benevole = new Benevole(row._id,row.prenom,row.nom,row.email,[affectation]);
-    this.benevoles.forEach((benevoleItem: Benevole) => {
-      if(benevoleItem._id === benevole._id){
-        benevole.affectations = benevoleItem.affectations
-      }
-    })
-    return benevole
+    // if the user is not connected, he can't create a Benevole
+    if(this.isAuth){
+      let zone = new Zone("","")
+      let creneau = new Creneau("","","")
+      let affectation = new Affectation(zone,creneau)
+      let benevole = new Benevole(row._id,row.prenom,row.nom,row.email,[affectation]);
+      this.benevoles.forEach((benevoleItem: Benevole) => {
+        if(benevoleItem._id === benevole._id){
+          benevole.affectations = benevoleItem.affectations
+        }
+      })
+      return benevole
+    }else{
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to create a Benevole',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to create a Benevole');
+    }
   }
 
   removeRow(_id: string) {
-    this.dialog
-      .open(ConfirmDialogComponent)
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (confirm) {
-          this.deleteBenevole(_id)
-        }
-      });
+    // if the user is not connected, he can't remove a row
+    if(this.isAuth){
+      this.dialog
+        .open(ConfirmDialogComponent)
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.deleteBenevole(_id)
+          }
+        });
+      }else{
+        this.snackBar.openFromComponent(ErrorDialogComponent, {
+          data: 'You must be connected to remove a row',
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        throw new Error('You must be connected to remove a row');
+      }
   }
 
   isAllSelected() {
@@ -162,17 +229,27 @@ export class BenevolesComponent implements OnInit {
    * else it will do nothing
    */
     removeSelectedRows() {
-      this.dialog
-        .open(ConfirmDialogComponent)
-        .afterClosed()
-        .subscribe((confirm) => {
-          if (confirm) {
-            const benevolesIds = this.benevolesDisplay.data
-              .filter((item: any) => item.isSelected)
-              .map((item: any) => item._id);
-            this.deleteBenevoles(benevolesIds)
-          }
-        });
+      // if the user is not connected, he can't remove a row
+      if(this.isAuth){
+        this.dialog
+          .open(ConfirmDialogComponent)
+          .afterClosed()
+          .subscribe((confirm) => {
+            if (confirm) {
+              const benevolesIds = this.benevolesDisplay.data
+                .filter((item: any) => item.isSelected)
+                .map((item: any) => item._id);
+              this.deleteBenevoles(benevolesIds)
+            }
+          });
+        }else{
+          this.snackBar.openFromComponent(ErrorDialogComponent, {
+            data: 'You must be connected to remove a row',
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+          });
+          throw new Error('You must be connected to remove a row');
+        }
     }
 
   /**
@@ -184,13 +261,23 @@ export class BenevolesComponent implements OnInit {
    * else it will display an error message
   */
   updateBenevole(row: CrudBenevoleDisplay, benevole: Benevole) {
-    this.benevolesService.updateBenevole(row._id, benevole).then(()=>{
-      // change the isEdit property to false to stop the edition mode
-      row.isEdit = false
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
+    // if the user is not connected, he can't update a Benevole
+    if(this.isAuth){
+      this.benevolesService.updateBenevole(row._id, benevole).then(()=>{
+        // change the isEdit property to false to stop the edition mode
+        row.isEdit = false
+      })
+      .catch((err)=>{
+        console.log(err.message)
+      })
+    }else{
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to update a Benevole',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to update a Benevole');
+    }
   }
 
   /**
@@ -203,15 +290,25 @@ export class BenevolesComponent implements OnInit {
    * else it will display an error message
   */
    createBenevole(row: CrudBenevoleDisplay, benevole: Benevole) {
-    this.benevolesService.createBenevole(benevole).then(()=>{
-      // change the isEdit property to false to stop the edition mode
-      row.isEdit = false
-      // change the _id property to the id of the created jeu
+    // if the user is not connected, he can't create a Benevole
+    if(this.isAuth){
+      this.benevolesService.createBenevole(benevole).then(()=>{
+        // change the isEdit property to false to stop the edition mode
+        row.isEdit = false
+        // change the _id property to the id of the created jeu
 
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
+      })
+      .catch((err)=>{
+        console.log(err.message)
+      })
+    }else{
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to create a Benevole',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to create a Benevole');
+    }
   }
 
     /**
@@ -222,12 +319,22 @@ export class BenevolesComponent implements OnInit {
    * else it will display an error message
   */
      deleteBenevole(_id: string) {
-      this.benevolesService.deleteBenevole(_id).then(()=>{
-          this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u) => u._id !== _id);
-      })
-      .catch((err)=>{
-        console.log(err.message)
-      })
+      // if the user is not connected, he can't delete a Benevole
+      if(this.isAuth){
+        this.benevolesService.deleteBenevole(_id).then(()=>{
+            this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u) => u._id !== _id);
+        })
+        .catch((err)=>{
+          console.log(err.message)
+        })
+      }else{
+        this.snackBar.openFromComponent(ErrorDialogComponent, {
+          data: 'You must be connected to delete a Benevole',
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        throw new Error('You must be connected to delete a Benevole');
+      }
     }
 
       /**
@@ -238,12 +345,22 @@ export class BenevolesComponent implements OnInit {
    * else it will display an error message
    */
   deleteBenevoles(benevolesIds : string[]) {
-    this.benevolesService.deleteBenevoles(benevolesIds).then(()=>{
-      this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u: any) => !u.isSelected);
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
+    // if the user is not connected, he can't delete a Benevole
+    if(this.isAuth){
+      this.benevolesService.deleteBenevoles(benevolesIds).then(()=>{
+        this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u: any) => !u.isSelected);
+      })
+      .catch((err)=>{
+        console.log(err.message)
+      })
+    }else{
+      this.snackBar.openFromComponent(ErrorDialogComponent, {
+        data: 'You must be connected to delete Benevoles',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw new Error('You must be connected to delete Benevoles');
+    }
   }
 
   inputHandler(e: any, id: string, key: string, ngModel: NgModel) {
