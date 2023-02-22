@@ -7,10 +7,16 @@
         class="button-remove-rows"
         mat-raised-button color="warn"
         (click)="removeSelectedRows()"
+        *ngIf="isAuth"
       >
         Remove Rows
       </button>
-      <button class="button-add-row" mat-raised-button color="accent" (click)="addRow()">
+      <button
+      class="button-add-row"
+      mat-raised-button color="accent"
+      (click)="addRow()"
+      *ngIf="isAuth"
+      >
         Add Row
       </button>
     </div>
@@ -25,6 +31,7 @@
             (change)="selectAll($event)"
             [checked]="isAllSelected()"
             [indeterminate]="!isAllSelected() && isAnySelected()"
+            *ngIf="isAuth"
           ></mat-checkbox>
         </span>
         <!-- Default case : the label of the column --->
@@ -39,17 +46,23 @@
             <mat-checkbox
               (change)="element.isSelected = $event.checked"
               [checked]="element.isSelected"
+              *ngIf="isAuth"
             ></mat-checkbox>
           </ng-container>
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
-            <button mat-button (click)="element.isEdit = !element.isEdit">
+            <button
+            mat-button
+            (click)="element.isEdit = !element.isEdit"
+            *ngIf="isAuth"
+            >
               Edit
             </button>
             <button
               mat-button
               class="button-remove"
               (click)="removeRow(element)"
+              *ngIf="isAuth"
             >
               Delete
             </button>
@@ -74,12 +87,14 @@
               mat-button
               (click)="editRow(element)"
               [disabled]="disableSubmit(element._id)"
+              *ngIf="isAuth"
             >
               Done
             </button>
             <button
             mat-button
             (click)="cancelEdit(element)"
+            *ngIf="isAuth"
           >
             Cancel
           </button>
@@ -109,6 +124,7 @@
               [(ngModel)]="element[col.key]"
               #ngModel="ngModel"
               (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)"
+              *ngIf="isAuth"
             />
           </mat-form-field>
         </div>
@@ -117,4 +133,3 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-  

@@ -7,6 +7,7 @@
         class="button-remove-rows"
         mat-raised-button color="warn"
         (click)="removeSelectedRows()"
+        *ngIf="isAuth"
       >
         Remove Rows
       </button>
@@ -22,7 +23,9 @@
             (change)="selectAll($event)"
             [checked]="isAllSelected()"
             [indeterminate]="!isAllSelected() && isAnySelected()"
-          ></mat-checkbox>
+            *ngIf="isAuth"
+          >
+        </mat-checkbox>
         </span>
         <!-- Default case : the label of the column --->
         <span *ngSwitchDefault>{{ col.label }}</span>
@@ -36,17 +39,23 @@
             <mat-checkbox
               (change)="element.isSelected = $event.checked"
               [checked]="element.isSelected"
-            ></mat-checkbox>
+              *ngIf="isAuth"
+            >
+          </mat-checkbox>
           </ng-container>
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
-            <button mat-button (click)="element.isEdit = !element.isEdit">
+            <button mat-button
+            (click)="element.isEdit = !element.isEdit"
+            *ngIf="isAuth"
+            >
               Edit
             </button>
             <button
               mat-button
               class="button-remove"
               (click)="removeRow(element)"
+              *ngIf="isAuth"
             >
               Delete
             </button>
@@ -114,4 +123,3 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-  
