@@ -46,7 +46,7 @@
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button mat-button
-            (click)="element.isEdit = !element.isEdit"
+            (click)="handleClickOnEdit(element)"
             *ngIf="isAuth"
             >
               Edit
@@ -79,7 +79,7 @@
             <button
               mat-button
               (click)="editRow(element)"
-              [disabled]="disableSubmit(element._id)"
+              [disabled]="disableSubmit(element.rowId)"
             >
               Done
             </button>
@@ -93,7 +93,7 @@
           <!---If type of column is selectZone--->
           <mat-form-field *ngSwitchCase="'selectZone'" appearance="fill" >
             <mat-label>Select Zone</mat-label>
-            <mat-select [(ngModel)]="element.idZone" [required]="col.required" #ngModel="ngModel" (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)">
+            <mat-select [(ngModel)]="element.idZone" [required]="col.required" #ngModel="ngModel" (ngModelChange)="inputHandler($event, element.rowId, col.key, ngModel)">
               <mat-option *ngFor="let zone of zones" [value]="zone._id">{{zone.nom}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -114,7 +114,7 @@
               [type]="col.type"
               [(ngModel)]="element[col.key]"
               #ngModel="ngModel"
-              (ngModelChange)="inputHandler($event, element._id, col.key, ngModel)"
+              (ngModelChange)="inputHandler($event, element.rowId, col.key, ngModel)"
             />
           </mat-form-field>
         </div>

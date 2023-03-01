@@ -35,7 +35,6 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
   valid: any = {};
 
   // auth
-  userId! : any
   isAuth! : boolean
 
   // zones data
@@ -59,6 +58,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
   ngOnInit(): void {
     // auth
     this.verifSignIn()
+
     //Get benevole
     // récuperer l'id depuis la route
     this.route.params.subscribe({
@@ -97,10 +97,6 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
     this.authService.isAuth$.subscribe(
       (bool: boolean)=>{
         this.isAuth = bool
-        if(bool){
-          // get user id
-          this.userId = this.authService.userId
-        }
       }
     )
   }
@@ -130,12 +126,28 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    */
   fillBenevolesDisplay(){
     this.benevolesDisplay = new MatTableDataSource<BenevoleDisplay>();
-    if(this.benevole.affectations.length == 0){
-      this.benevolesDisplay.data.push(new BenevoleDisplay(this.benevole, this.benevole.affectations[0]))
-    }else{
-      this.benevole.affectations.forEach((affectation: Affectation) => {
-        this.benevolesDisplay.data.push(new BenevoleDisplay(this.benevole, affectation))
-      });
+    this.benevole.affectations.forEach((affectation: Affectation) => {
+      this.rowNumber--;
+      this.benevolesDisplay.data.push(new BenevoleDisplay(this.benevole, affectation, this.rowNumber.toString()))
+    });
+
+  }
+
+  /**
+   * handel the click on the edit button
+   * @param row
+  */
+  handleClickOnEdit(row: BenevoleDisplay) {
+    row.isEdit = !row.isEdit
+    // initialise the valid object
+    this.valid[row.rowId] = {
+      prenom : true,
+      nom: true,
+      email: true,
+      zone: row.zone == "" ? false : true,
+      debut_creneau: row.debut_creneau == "" ? false : true,
+      fin_creneau: row.fin_creneau == "" ? false : true,
+      date: row.date == "" ? false : true
     }
   }
 
@@ -143,66 +155,108 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
     // if the user is not connected, he can't add a row
     if(this.isAuth){
       this.rowNumber--;
-      this.valid[this.rowNumber] = {
-        prenom : false,
-        nom: false,
-        email: false,
+      this.valid[this.rowNumber.toString()] = {
+        prenom : true,
+        nom: true,
+        email: true,
         zone: false,
         debut_creneau: false,
         fin_creneau: false,
         date: false,
       }
       // create the same BenevoleDisplay object as the one in the table but with empty values for the affectation
-      let benevoleDisplayRow = new BenevoleDisplay(this.benevole, new Affectation(new Zone("",""), new Creneau("", "", "")));
+      let benevoleDisplayRow = new BenevoleDisplay(this.benevole, new Affectation(new Zone("",""), new Creneau("", "", "")), this.rowNumber.toString());
       benevoleDisplayRow.isEdit = true;
       this.benevolesDisplay.data = [benevoleDisplayRow, ...this.benevolesDisplay.data];
     }else{
       this.snackBar.openFromComponent(ErrorDialogComponent, {
-      data: 'You must be connected to add a row',
-      duration: 3000,
-      panelClass: ['error-snackbar'],
-    });
-    throw new Error('You must be connected to add a row');
-  }
-
+        data: 'You must be connected to add an affectation to a benevole',
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }
   }
 
   /**
-   * editRow
+   * editRow function called when the user click on the done button
    * @param row
    * it will call the function createBenevoleFromDisplay that will create a Benevole Object from the BenevoleDisplay Object
    * it will call the function updateAffectations() which will call the service to update the affectations of the benevole
    *
-   */
+  */
   editRow(row: BenevoleDisplay){
     // if the user is not connected, he can't edit a row
     if(this.isAuth){
-      let benevole = this.createBenevoleFromDisplay(row);
-      this.updateAffectations(row,benevole.affectations)
-    }else{
+      // check if the end time is after the start time
+      const debutCreneau = new Date(row.date + " " + row.debut_creneau);
+      const finCreneau = new Date(row.date + " " + row.fin_creneau);
+      if (finCreneau.getTime() <= debutCreneau.getTime()) {
+        this.snackBar.openFromComponent(ErrorDialogComponent, {
+          data: 'End time must be after start time',
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+      }else{
+        // check that the benevole doesn't have two affectations at the same time
+        // get only the affectations that are not the in the current row (the one that is being edited)
+        const affectationsNotEditing = this.benevolesDisplay.data.filter((affectation: BenevoleDisplay) => {
+          return affectation.rowId !== row.rowId;
+        });
+        let timeIntersect : boolean = false;
+        let i = 0;
+        while(!timeIntersect && i < affectationsNotEditing.length){
+          const affectation : BenevoleDisplay = affectationsNotEditing[i];
+          const debutCreneauAffectation = new Date(affectation.date + " " + affectation.debut_creneau);
+          const finCreneauAffectation = new Date(affectation.date + " " + affectation.fin_creneau);
+          timeIntersect = 
+                          (debutCreneau.getTime() >= debutCreneauAffectation.getTime() &&
+                            debutCreneau.getTime() < finCreneauAffectation.getTime()) ||
+                          (finCreneau.getTime() > debutCreneauAffectation.getTime() &&
+                            finCreneau.getTime() <= finCreneauAffectation.getTime()) ||
+                          (debutCreneau.getTime() <= debutCreneauAffectation.getTime() &&
+                            finCreneau.getTime() >= finCreneauAffectation.getTime());
+          i++;
+        }
+        if (timeIntersect){
+          this.snackBar.openFromComponent(ErrorDialogComponent, {
+            data: 'You already have an affectation at this time',
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+          });
+        }
+        else{
+          // if the benevole doesn't have two affectations at the same time, update the affectations
+          let benevole = this.createBenevoleFromDisplay(row);
+          this.updateAffectations(row,benevole.affectations)
+        }
+      }
+    }
+    // if the user is not connected, he can't edit a row
+    else{
       this.snackBar.openFromComponent(ErrorDialogComponent, {
-      data: 'You must be connected to edit a row',
+      data: 'You must be connected to edit an affectation of a benevole',
       duration: 3000,
       panelClass: ['error-snackbar'],
     });
-    throw new Error('You must be connected to edit a row');
   }
 }
 
   /**
- * Cancel the edit of a row
- * @param row
- *
+  * Cancel the edit of a row
+  * @param row
+  *
  */
   cancelEdit(row: BenevoleDisplay) {
+    // if the row is a new row, delete it
     if (Number(row._id) < 0) {
-      this.benevolesDisplay.data = this.benevolesDisplay.data.filter((benevole: BenevoleDisplay) => benevole._id !== row._id);
+      this.benevolesDisplay.data = this.benevolesDisplay.data.filter((benevole: BenevoleDisplay) => benevole.rowId !== row.rowId);
     } else {
-      this.fillBenevolesDisplay()
+      // if the row is an existing row
       row.isEdit = false;
+      this.benevolesDisplay.data = [...this.benevolesDisplay.data];
     }
     // delete the valid object of the row
-    delete this.valid[row._id];
+    delete this.valid[row.rowId];
   }
 
   /**
@@ -214,23 +268,15 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    *
   */
   createBenevoleFromDisplay(row: BenevoleDisplay): Benevole{
-    // if the user is not connected, he can't edit a row
-    if(this.isAuth){
-      let affectations: Affectation[] = [];
-      this.benevolesDisplay.data.forEach((benevoleDisplay: BenevoleDisplay) => {
-        let affectation = this.createAffectationFromBenevoleDisplay(benevoleDisplay)
-        affectations.push(affectation);
-      });
-      let benevole = new Benevole(row._id,row.prenom, row.nom, row.email, affectations);
-      return benevole;
-    }else{
-      this.snackBar.openFromComponent(ErrorDialogComponent, {
-        data: 'You must be connected to add a row',
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-      throw new Error('You must be connected to add a row');
-    }
+    // If all the guards are passed we create the affectations array and return the Benevole Object
+    // remove the affectation that is being edited
+    let affectations : Affectation[] = this.benevole.affectations.filter(a => a._id !== row.idAffectation);
+    // add the new affectation
+    const affectation = this.createAffectationFromBenevoleDisplay(row)
+    affectations.push(affectation);
+    // create the Benevole Object
+    let benevole = new Benevole(row._id,row.prenom, row.nom, row.email, affectations);
+    return benevole;
 }
 
   /**
@@ -238,57 +284,12 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    * @param row
    * @returns Affectation
   */
-  createAffectationFromBenevoleDisplay(row: BenevoleDisplay): Affectation {
-    // if the user is not connected, he can't edit a row
-    if(this.isAuth){
-    const debutCreneau = new Date(row.date + " " + row.debut_creneau);
-    const finCreneau = new Date(row.date + " " + row.fin_creneau);
-
-    // check if the end time is after the start time
-    if (finCreneau.getTime() <= debutCreneau.getTime()) {
-      this.snackBar.openFromComponent(ErrorDialogComponent, {
-        data: 'End time must be after start time',
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-      throw new Error('End time must be after start time');
-    }
-
-    // Check if for this benevole the interval debutCreneau / finCreneau does not intersect with another interval
-    // complete de args for the some function to check if the interval is already taken
-
-    /* const intersect = this.benevolesDisplay.data.some(function (benevoleDisplay: BenevoleDisplay) {
-      if (benevoleDisplay._id !== row._id) {
-        const debutCreneauBenevole = new Date(benevoleDisplay.date + " " + benevoleDisplay.debut_creneau);
-        const finCreneauBenevole = new Date(benevoleDisplay.date + " " + benevoleDisplay.fin_creneau);
-        return (
-          (debutCreneau.getTime() >= debutCreneauBenevole.getTime() && debutCreneau.getTime() < finCreneauBenevole.getTime()) ||
-          (finCreneau.getTime() > debutCreneauBenevole.getTime() && finCreneau.getTime() <= finCreneauBenevole.getTime())
-        );
-      }
-    });
-    if (intersect) {
-      this.snackBar.openFromComponent(ErrorDialogComponent, {
-        data: 'The interval is already taken',
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-      throw new Error('The interval is already taken');
-    } */
-
-
+  createAffectationFromBenevoleDisplay(row: BenevoleDisplay): Affectation{
     const zone: Zone = this.zones.find((zone: Zone) => zone._id === row.idZone) || new Zone('', '');
     const creneau: Creneau = new Creneau(row.debut_creneau, row.fin_creneau, row.date);
-    return new Affectation(zone, creneau);
-    }else{
-      this.snackBar.openFromComponent(ErrorDialogComponent, {
-        data: 'You must be connected to add a row',
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
-      throw new Error('You must be connected to add a row');
-    }
-
+    // update the zone in the display
+    row.zone = zone.nom;
+    return new Affectation(zone, creneau, row.idAffectation);
   }
 
   removeRow(row: BenevoleDisplay) {
@@ -337,7 +338,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
    */
   removeSelectedRows() {
     // if the user is not connected, he can't edit a row
-    if(!this.isAuth){
+    if(this.isAuth){
       this.dialog
         .open(ConfirmDialogComponent)
         .afterClosed()
@@ -371,8 +372,10 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
   */
   updateAffectations(row: BenevoleDisplay, affectations: Affectation[]) {
     // if the user is not connected, he can't edit a row
-    if(!this.isAuth){
+    if(this.isAuth){
       this.benevolesService.updateAffectations(row._id, affectations).then(()=>{
+        // update the affectations array of the benevole
+        this.benevole.affectations = affectations;
         // change the isEdit property to false to stop the edition mode
         row.isEdit = false
       })
@@ -397,9 +400,12 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
   */
   deleteAffectation(_id: string, affectation: Affectation) {
     // if the user is not connected, he can't edit a row
-    if(!this.isAuth){
+    if(this.isAuth){
       this.benevolesService.deleteAffectation(_id, affectation).then(()=>{
-          this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u) => u._id !== _id);
+          // remove the affectation that is being edited
+          this.benevole.affectations = this.benevole.affectations.filter(a => a._id !== affectation._id);
+          // remove the affectation from the display
+          this.benevolesDisplay.data = this.benevolesDisplay.data.filter((u) => u.idAffectation !== affectation._id);
       })
       .catch((err)=>{
         console.log(err.message)
@@ -419,6 +425,7 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
       this.valid[id] = {}
     }
     this.valid[id][key] = ngModel.control.valid
+    console.log(this.valid)
   }
 
   disableSubmit(id: string) {

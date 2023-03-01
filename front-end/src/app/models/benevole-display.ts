@@ -6,6 +6,7 @@ export class BenevoleDisplay {
     prenom!: string
     nom!: string
     email!: string
+    idAffectation!: string
     idZone!: string
     zone!: string
     debut_creneau!: any
@@ -13,20 +14,23 @@ export class BenevoleDisplay {
     date!: any
     isEdit!: boolean
     isSelected!: boolean
+    rowId!: string
 
     // construct benevolerDisplay from benevole and affectation
-    constructor(benevole: Benevole, affectation: Affectation) {
+    constructor(benevole: Benevole, affectation: Affectation, rowId: string) {
         this._id = benevole._id
         this.prenom = benevole.prenom
         this.nom = benevole.nom
         this.email = benevole.email
-        this.idZone = affectation.zone._id
-        this.zone = affectation.zone.nom
-        this.debut_creneau = affectation.creneau.debut_creneau
-        this.fin_creneau = affectation.creneau.fin_creneau
-        this.date = affectation.creneau.date
+        this.idAffectation = affectation._id || ""
+        this.idZone = affectation.zone._id || ""
+        this.zone = affectation.zone.nom || ""
+        this.debut_creneau = affectation.creneau.debut_creneau || ""
+        this.fin_creneau = affectation.creneau.fin_creneau || ""
+        this.date = affectation.creneau.date || ""
         this.isEdit = false
         this.isSelected = false
+        this.rowId = rowId
     }
 
 }

@@ -75,7 +75,7 @@ export class BenevolesService {
       this.http.post(this.api+'/benevoles',benevole).subscribe({
         next:(data:any)=>{
           if(data.status===201){
-            this.getBenevoles()
+            //this.getBenevoles()
             resolve(data)
           }else{
             console.log("Erreur de création du benevole (status !=201): ", data.message)
@@ -97,7 +97,7 @@ export class BenevolesService {
       this.http.put(this.api+'/benevoles/'+id, benevole).subscribe({
         next:(data:any)=>{
           if(data.status===200){
-            this.getBenevoles()
+            //this.getBenevoles()
             resolve(data)
           }else{
             console.log("Erreur de mise à jour du benevole (status !=200): ", data.message)
@@ -119,7 +119,7 @@ export class BenevolesService {
     return new Promise((resolve, reject)=>{
       this.http.delete(this.api+'/benevoles/'+id).subscribe({
         next:(data:any)=>{
-            this.getBenevoles()
+            //this.getBenevoles()
             resolve(data)
           },
         error:(err)=>{
@@ -142,7 +142,7 @@ export class BenevolesService {
     return new Promise((resolve, reject)=>{
       this.http.post(this.api+'/benevoles/removeMany',ids).subscribe({
         next:(data:any)=>{
-            this.getBenevoles()
+            //this.getBenevoles()
             resolve(data)
           },
         error:(err)=>{
@@ -163,8 +163,8 @@ export class BenevolesService {
       this.http.put(this.api+'/benevoles/'+id+'/affectations', affectations).subscribe({
         next:(data:any)=>{
           if(data.status===200){
-            this.getBenevoles()
-            this.getBenevoleById(id)
+            //this.getBenevoles()
+            //this.getBenevoleById(id)
             resolve(data)
           }else{
             console.log("Erreur de mise à jour des affectations du benevole (status !=200): ", data.message)
@@ -187,8 +187,8 @@ export class BenevolesService {
       this.http.put(this.api+'/benevoles/'+id+'/affectation', affectation).subscribe({
         next:(data:any)=>{
           if(data.status===200){
-            this.getBenevoles()
-            this.getBenevoleById(id)
+            //this.getBenevoles()
+            //this.getBenevoleById(id)
             resolve(data)
           }else{
             console.log("Erreur de supression de l'affectation du benevole (status !=200): ", data.message)

@@ -145,7 +145,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * 
    */
   editRow(row: JeuDisplay) {
-    const jeu : Jeu = this.crateJeuFromDisplay(row)
+    const jeu : Jeu = this.createJeuFromDisplay(row)
     // tranform the _id of the row to a number
     if (Number(row._id) < 0) {
       this.createJeu(row,jeu)
@@ -164,7 +164,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
       this.jeuxDisplay.data = this.jeuxDisplay.data.filter((jeu: JeuDisplay) => jeu._id !== row._id);
     } else {
       row.isEdit = false;
-      this.fillJeuxDisplay()
+      this.jeuxDisplay.data = [...this.jeuxDisplay.data];
     }
     // delete the valid object of the row
     delete this.valid[row._id]
@@ -176,7 +176,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * will create a jeu Object with the jeuDisplay object
    * @param row
    */
-  crateJeuFromDisplay(row: JeuDisplay) : Jeu{
+  createJeuFromDisplay(row: JeuDisplay) : Jeu{
     // create a TypeJeu object from the typeJeu field of the jeuDisplay
     let typeJeu : TypeJeu = {_id: "", type: ""}
     if (row.idTypeJeu !== "") {
@@ -184,6 +184,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
       let tempTypeJeu : TypeJeu | undefined = this.typesJeux.find((typeJeu: TypeJeu) => typeJeu._id === row.idTypeJeu)
       if (tempTypeJeu !== undefined) {
         typeJeu = tempTypeJeu
+        row.typeJeu = typeJeu.type
       }
     }
     
@@ -194,6 +195,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
       let tempZone : Zone | undefined = this.zones.find((zone: Zone) => zone._id === row.idZone)
       if (tempZone !== undefined) {
         zone = tempZone
+        row.zone = zone.nom
       }
     }
 
@@ -285,7 +287,6 @@ export class JeuxComponent implements OnInit, OnDestroy {
       // change the isEdit property to false to stop the edition mode
       row.isEdit = false
       // change the _id property to the id of the created jeu
-
     })
     .catch((err)=>{
       console.log(err.message)

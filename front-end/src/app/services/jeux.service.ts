@@ -47,7 +47,7 @@ export class JeuxService {
       this.http.post(this.api+'/jeux',jeu).subscribe({
         next:(data:any)=>{
           if(data.status===201){
-            this.getJeux()
+            //this.getJeux()
             resolve(data)
           }else{
             console.log("Erreur de création du jeu (status !=201): ", data.message)
@@ -69,7 +69,7 @@ export class JeuxService {
       this.http.put(this.api+'/jeux/'+id, jeu).subscribe({
         next:(data:any)=>{
           if(data.status===200){
-            this.getJeux()
+            //this.getJeux()
             resolve(data)
           }else{
             console.log("Erreur de mise à jour du jeu (status !=200): ", data.message)
@@ -91,7 +91,7 @@ export class JeuxService {
     return new Promise((resolve, reject)=>{
       this.http.delete(this.api+'/jeux/'+id).subscribe({
         next:(data:any)=>{
-            this.getJeux()
+            //this.getJeux()
             resolve(data)
           },
         error:(err)=>{
@@ -114,7 +114,7 @@ export class JeuxService {
     return new Promise((resolve, reject)=>{
       this.http.post(this.api+'/jeux/removeMany',ids).subscribe({
         next:(data:any)=>{
-            this.getJeux()
+            //this.getJeux()
             resolve(data)
           },
         error:(err)=>{

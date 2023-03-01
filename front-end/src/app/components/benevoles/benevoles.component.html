@@ -78,7 +78,7 @@
           </div>
           <!---If type of column is affectations -->
           <span *ngSwitchCase="'affectations'">
-            {{ element.affectations.length }}
+            {{ nombreAffectationsOfBenevole(element) }}
           </span>
           <!---Default case -->
           <span *ngSwitchDefault>
@@ -110,7 +110,7 @@
           </div>
           <!---If type of column is affectations -->
           <span *ngSwitchCase="'affectations'">
-            {{ element.affectations.length }}
+            {{ nombreAffectationsOfBenevole(element) }}
           </span>
           <!--Default case : other column types -->
           <mat-form-field class="form-input" *ngSwitchDefault>

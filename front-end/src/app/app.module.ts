@@ -47,6 +47,7 @@ import { ErrorDialogComponent } from './components/partials/error-dialog/error-d
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
