@@ -9,21 +9,25 @@
   p {
   font-family: Lato;
   }
+
   table {
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
   margin-top: 25px;
   }
+
   .btn-edit {
   text-align: right;
   }
+
   h2 {
   text-align: center;
   padding-top: 20px;
   }
   
+
   .table-header {
-  width: 90%;
+  width: 70%;
   margin: auto;
   text-align: right;
   margin-bottom: 10px;
@@ -47,4 +51,23 @@
   
   .form-input {
   padding-right: 5px;
+  }
+
+  label {
+    padding: 0 8px;
+  }
+
+  .demo-inline-card {
+    width: 300px;
+    margin-bottom: 1rem;
+  }
+
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .example-additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
   }

@@ -21,6 +21,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
 import { MTX_DATETIME_FORMATS } from '@ng-matero/extensions/core';
+import {MatCardModule} from '@angular/material/card';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -106,7 +108,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatAutocompleteModule,
     MatDividerModule,
     MtxDatetimepickerModule,
-    MtxNativeDatetimeModule
+    MtxNativeDatetimeModule,
+    MatCardModule,
+    MatSidenavModule
   ],
   providers: [
     // interceptor, sa classe,

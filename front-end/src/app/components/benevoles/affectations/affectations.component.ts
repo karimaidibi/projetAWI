@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ConfirmDialogComponent } from '../../partials/confirm-dialog/confirm-dialog.component';
 import { Zone } from 'src/app/models/zone';
 import { ZonesService } from 'src/app/services/zones.service';
-import { NgModel } from '@angular/forms';
+import { FormControl, NgModel } from '@angular/forms';
 import { Benevole } from 'src/app/models/benevole';
 import { BenevoleDisplay, BENEVOLE_DISPLAY_COLUMNS_SCHEMA } from 'src/app/models/benevole-display';
 import { BenevolesService } from 'src/app/services/benevoles.service';
@@ -56,12 +56,19 @@ export class AffectationsComponent implements OnInit {
   mode: MtxDatetimepickerMode = 'auto';
   startView: MtxCalendarView = 'month';
   multiYearSelector = false;
-  touchUi = false;
+  touchUi = true;
   twelvehour = false;
   timeInterval = 1;
   timeInput = true;
 
-  datetime = new UntypedFormControl();
+  datetimeFilterForm = new UntypedFormControl();
+  datetimeFilterForm2 = new UntypedFormControl();
+  zonesFilterForm = new FormControl('');
+
+  // calendars
+  selectedCalendarDate: Date | null = null;
+  selectedCalendarStartTime: Date | null = null;
+  selectedCalendarEndTime: Date | null = null;
 
   constructor(
     public dialog: MatDialog,
@@ -420,6 +427,44 @@ export class AffectationsComponent implements OnInit {
     }
     return true
   }
+
+  onDateFilterChanged(event: any) {
+    this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
+      const [date1, date2] = filter.split(";");
+      const selectedDate1 = new Date(date1).getTime()
+      const selectedDate2 = new Date(date2).getTime()
+      const startTime = new Date(data.date + " " + data.debut_creneau).getTime();
+      const endTime = new Date(data.date + " " + data.fin_creneau).getTime();
+      return (
+        (startTime >= selectedDate1 || !selectedDate1) &&
+        (endTime <= selectedDate2 || !selectedDate2)
+      );
+    };
+    const selectedDate1 = this.datetimeFilterForm.value
+    const selectedDate2 = this.datetimeFilterForm2.value
+    let filter = selectedDate1 + ";" + selectedDate2
+    this.benevolesDisplay.filter = filter
+  }
+
+  onZonesFilterChanged() {
+    const selectedZones = this.zonesFilterForm.value;
+    if(selectedZones != null) {
+      this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
+        const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
+        return selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
+      };
+      this.benevolesDisplay.filter = selectedZones;
+    };
+  }
+
+  applyFilterText(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
+      return data.nom.toLowerCase().includes(filter) || data.prenom.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter);
+    };
+    this.benevolesDisplay.filter = filterValue.trim().toLowerCase();
+  }
+
 
   ngOnDestroy(): void {
     this.benevolesSub.unsubscribe()
