@@ -10,10 +10,10 @@ import { Zone } from 'src/app/models/zone';
 import { TypeJeu } from 'src/app/models/type-jeu';
 import { TypesJeuxService } from 'src/app/services/types-jeux.service';
 import { ZonesService } from 'src/app/services/zones.service';
-import { NgModel } from '@angular/forms';
+import { FormControl, NgModel } from '@angular/forms';
 import { MatSort, Sort } from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+
 
 @Component({
   selector: 'festivalJeux-jeux',
@@ -43,11 +43,13 @@ export class JeuxComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort!: MatSort;
 
+  typesJeuxFilterForm = new FormControl('');
+  zonesFilterForm = new FormControl('');
+
   constructor(private jeuxService: JeuxService,
     public dialog: MatDialog,
     private typesJeuxService: TypesJeuxService,
     private zonesService: ZonesService,
-    private _liveAnnouncer: LiveAnnouncer
     ) { }
 
   ngOnInit(): void {
@@ -96,7 +98,6 @@ export class JeuxComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.jeuxDisplay.sort = this.sort;
-
   }
 
 
@@ -342,18 +343,37 @@ export class JeuxComponent implements OnInit, OnDestroy {
     return true
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: any) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
+      return data.nom.toLowerCase().includes(filter) || data.zone.toLowerCase().includes(filter) || data.typeJeu.toLowerCase().includes(filter);
+    };
+    this.jeuxDisplay.filter = filterValue.trim().toLowerCase();
+    console.log("filterValue", filterValue)
   }
+
+  onTypesJeuxFilterChanged() {
+    const selectedTypesJeux = this.typesJeuxFilterForm.value;
+    if(selectedTypesJeux != null) {
+      this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
+        const selectedTypes = Array.from(selectedTypesJeux) as string[]; // cast to string[]
+        return selectedTypes.length === 0 || selectedTypes.some(type => data.typeJeu.includes(type));
+      };
+      this.jeuxDisplay.filter = selectedTypesJeux;
+    };
+  }
+
+  onZonesFilterChanged() {
+    const selectedZones = this.zonesFilterForm.value;
+    if(selectedZones != null) {
+      this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
+        const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
+        return selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
+      };
+      this.jeuxDisplay.filter = selectedZones;
+    };
+  }
+  
 
   ngOnDestroy(): void {
     this.jeuxSub.unsubscribe()

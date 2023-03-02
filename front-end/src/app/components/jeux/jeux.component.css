@@ -48,3 +48,14 @@ width: 100% important;
 .form-input {
 padding-right: 5px;
 }
+
+/*Tis input field should have borders*/
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}

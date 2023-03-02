@@ -1,6 +1,44 @@
+<!-- The Buttons -->
 <article class="table-header">
   <div>
     <i>Nom is required | Type is required</i>
+  </div>
+  <!-- Filtrer par type -->
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Fitrer Par Types des jeux</mat-label>
+      <mat-select [formControl]="typesJeuxFilterForm" multiple (selectionChange)="onTypesJeuxFilterChanged()">
+        <mat-select-trigger>
+          {{typesJeuxFilterForm.value?.[0] || ''}}
+          <span *ngIf="(typesJeuxFilterForm.value?.length || 0) > 1" class="example-additional-selection">
+            (+{{(typesJeuxFilterForm.value?.length || 0) - 1}} {{typesJeuxFilterForm.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let typeJeu of typesJeux" [value]="typeJeu.type">{{typeJeu.type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!--Filters all-->
+  <div>
+    <mat-form-field class="mat-mdc-form-field">
+      <mat-label>Filtrer par Nom, type ou zone</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. black jack" #input>
+    </mat-form-field>
+  </div>
+  <!-- Filtrer par zone -->
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Fitrer Par Zones</mat-label>
+      <mat-select [formControl]="zonesFilterForm" multiple (selectionChange)="onZonesFilterChanged()">
+        <mat-select-trigger>
+          {{zonesFilterForm.value?.[0] || ''}}
+          <span *ngIf="(zonesFilterForm.value?.length || 0) > 1" class="example-additional-selection">
+            (+{{(zonesFilterForm.value?.length || 0) - 1}} {{zonesFilterForm.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let zone of zones" [value]="zone.nom">{{zone.nom}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div>
     <button
@@ -16,6 +54,10 @@
   </div>
 </article>
 
+<mat-divider></mat-divider>
+<mat-divider></mat-divider>
+
+<!--The Dynamic Table-->
 <table mat-table [dataSource]="jeuxDisplay" matSort >
   <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
     <!--- switch case on the col.key --->
@@ -117,4 +159,9 @@
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+  </tr>
 </table>

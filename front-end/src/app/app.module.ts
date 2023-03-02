@@ -15,6 +15,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -96,6 +100,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatSortModule,
     MatIconModule,
     MatSnackBarModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatDividerModule
   ],
   providers: [
     // interceptor, sa classe,
