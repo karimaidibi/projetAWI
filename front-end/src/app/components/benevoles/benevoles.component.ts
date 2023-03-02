@@ -388,6 +388,15 @@ export class BenevolesComponent implements OnInit {
     return true
   }
 
+  applyFilterText(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.benevolesDisplay.filterPredicate = (data: CrudBenevoleDisplay, filter: string) => {
+      return data.nom.toLowerCase().includes(filter) || data.prenom.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter);
+    };
+    this.benevolesDisplay.filter = filterValue.trim().toLowerCase();
+  }
+
+
   ngOnDestroy(): void {
     this.benevolesSub.unsubscribe()
   }

@@ -13,6 +13,8 @@ import { ZonesService } from 'src/app/services/zones.service';
 import { FormControl, NgModel } from '@angular/forms';
 import { MatSort, Sort } from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -46,10 +48,15 @@ export class JeuxComponent implements OnInit, OnDestroy {
   typesJeuxFilterForm = new FormControl('');
   zonesFilterForm = new FormControl('');
 
+  //auth
+  isAuth!: boolean
+
   constructor(private jeuxService: JeuxService,
     public dialog: MatDialog,
     private typesJeuxService: TypesJeuxService,
     private zonesService: ZonesService,
+    private authService : AuthService,
+    private snackBar: MatSnackBar,
     ) { }
 
   ngOnInit(): void {
@@ -93,7 +100,18 @@ export class JeuxComponent implements OnInit, OnDestroy {
       }
     });
     this.zonesService.getZones()
-  
+    
+    //verifier si l'utilisateur est authentifié
+    this.VerifSignIn()
+  }
+
+  //assigner is auth a true si user est connecté
+  VerifSignIn() : void{
+    this.authService.isAuth$.subscribe(
+      (bool: boolean)=>{
+        this.isAuth = bool
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -118,23 +136,27 @@ export class JeuxComponent implements OnInit, OnDestroy {
   }
 
   addRow() {
-    this.rowNumber--;
-    this.valid[this.rowNumber] = {
-      nom: false,
-      typeJeu: false,
-      zone: true
+    if(this.isAuth){
+      this.rowNumber--;
+      this.valid[this.rowNumber] = {
+        nom: false,
+        typeJeu: false,
+        zone: true
+      }
+      const jeuDisplayRow : JeuDisplay = {
+        _id: this.rowNumber.toString(),
+        nom: "",
+        zone: "",
+        idZone: "",
+        typeJeu: "",
+        idTypeJeu: "",
+        isEdit: true,
+        isSelected: false
+      }
+      this.jeuxDisplay.data = [jeuDisplayRow, ...this.jeuxDisplay.data];
+    }else{
+      alert("Vous n'êtes pas connecté")
     }
-    const jeuDisplayRow : JeuDisplay = {
-      _id: this.rowNumber.toString(),
-      nom: "",
-      zone: "",
-      idZone: "",
-      typeJeu: "",
-      idTypeJeu: "",
-      isEdit: true,
-      isSelected: false
-    }
-    this.jeuxDisplay.data = [jeuDisplayRow, ...this.jeuxDisplay.data];
   }
 
   /**
@@ -146,12 +168,16 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * 
    */
   editRow(row: JeuDisplay) {
-    const jeu : Jeu = this.createJeuFromDisplay(row)
-    // tranform the _id of the row to a number
-    if (Number(row._id) < 0) {
-      this.createJeu(row,jeu)
-    } else {
-      this.updateJeu(row, jeu)
+    if(this.isAuth){
+      const jeu : Jeu = this.createJeuFromDisplay(row)
+      // tranform the _id of the row to a number
+      if (Number(row._id) < 0) {
+        this.createJeu(row,jeu)
+      } else {
+        this.updateJeu(row, jeu)
+      }
+    }else{
+      alert("Vous n'êtes pas connecté")
     }
   }
 
@@ -210,14 +236,18 @@ export class JeuxComponent implements OnInit, OnDestroy {
   }
 
   removeRow(_id: string) {
-    this.dialog
-      .open(ConfirmDialogComponent)
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (confirm) {
-          this.deleteJeu(_id)
-        }
-      });
+    if(this.isAuth){
+      this.dialog
+        .open(ConfirmDialogComponent)
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.deleteJeu(_id)
+          }
+        });
+    }else{
+      alert("Vous n'êtes pas connecté")
+    }
   }
 
   isAllSelected() {
@@ -243,17 +273,21 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * else it will do nothing
    */ 
   removeSelectedRows() {
-    this.dialog
-      .open(ConfirmDialogComponent)
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (confirm) {
-          const jeuxIds = this.jeuxDisplay.data
-            .filter((item: any) => item.isSelected)
-            .map((item: any) => item._id);
-          this.deleteJeux(jeuxIds)
-        }
-      });
+    if(this.isAuth){
+      this.dialog
+        .open(ConfirmDialogComponent)
+        .afterClosed()
+        .subscribe((confirm) => {
+          if (confirm) {
+            const jeuxIds = this.jeuxDisplay.data
+              .filter((item: any) => item.isSelected)
+              .map((item: any) => item._id);
+            this.deleteJeux(jeuxIds)
+          }
+        });
+    }else{
+      alert("Vous n'êtes pas connecté")
+    }
   }
 
   /**
