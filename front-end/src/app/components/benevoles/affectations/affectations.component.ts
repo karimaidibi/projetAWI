@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -16,6 +16,14 @@ import { ErrorDialogComponent } from '../../partials/error-dialog/error-dialog.c
 import { MatSnackBar } from '@angular/material/snack-bar';
 // auth
 import { AuthService } from 'src/app/services/auth.service';
+// imports for ng-matero extension
+import {
+  MtxCalendarView,
+  MtxDatetimepickerMode,
+  MtxDatetimepickerType,
+} from '@ng-matero/extensions/datetimepicker';
+import { UntypedFormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 
 
 @Component({
@@ -42,6 +50,18 @@ export class AffectationsComponent implements OnInit {
   zonesSub!: Subscription;
 
   rowNumber: number = 0;
+
+  // ng matro extension
+  type: MtxDatetimepickerType = 'datetime';
+  mode: MtxDatetimepickerMode = 'auto';
+  startView: MtxCalendarView = 'month';
+  multiYearSelector = false;
+  touchUi = false;
+  twelvehour = false;
+  timeInterval = 1;
+  timeInput = true;
+
+  datetime = new UntypedFormControl();
 
   constructor(
     public dialog: MatDialog,

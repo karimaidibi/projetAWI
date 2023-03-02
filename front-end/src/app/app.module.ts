@@ -12,13 +12,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
-
+import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
+import { MtxNativeDatetimeModule } from '@ng-matero/extensions/core';
+import { MTX_DATETIME_FORMATS } from '@ng-matero/extensions/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -102,7 +104,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
     MatChipsModule,
     MatAutocompleteModule,
-    MatDividerModule
+    MatDividerModule,
+    MtxDatetimepickerModule,
+    MtxNativeDatetimeModule
   ],
   providers: [
     // interceptor, sa classe,
