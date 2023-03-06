@@ -5,7 +5,7 @@
     border-color: currentColor;
     font-weight: bold;
   }
-  
+
   p {
   font-family: Lato;
   }
@@ -20,33 +20,45 @@
   text-align: right;
   }
 
+  h1{
+    text-align: center;
+  }
+
   h2 {
   text-align: center;
   padding-top: 20px;
   }
-  
-  .table-header {
-  width: 90%;
-  margin: auto;
 
+  .table-header {
+  width: 60%;
+  margin: auto;
+  text-align: left;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   }
-  
+
+  .mat-divider {
+    margin: 20px 20%;
+    width: 60%;
+  }
+
+  .btn-add-del {
+    margin-left: 10%;
+  }
+
   .button-remove-rows {
-  margin-right: 5px;
+  margin: 5px;
   }
-  
+
   .button-remove {
   color: red;
   }
-  
+
   ::ng-deep .mat-form-field-infix {
   width: 100% important;
   }
-  
+
   .form-input {
   padding-right: 5px;
   }
@@ -59,5 +71,5 @@
   }
 
   .filterInput {
-    text-align: center;
+    width: 70%;
   }

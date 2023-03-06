@@ -50,7 +50,7 @@
     >
       Remove Rows
     </button>
-    <button 
+    <button
         class="button-add-row"
         mat-raised-button color="accent"
         (click)="addRow()"
@@ -94,7 +94,7 @@
         </ng-container>
         <!---If type of column is isEdit--->
         <div class="btn-edit" *ngSwitchCase="'isEdit'">
-          <button 
+          <button
             mat-button
             (click)="element.isEdit = !element.isEdit"
             *ngIf="isAuth"

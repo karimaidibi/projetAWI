@@ -1,36 +1,36 @@
-<article class="table-header">
-    <div>
-      <i>CRUD BENEVOLE</i>
-    </div>
-    <div>
-      <button
-        class="button-remove-rows"
-        mat-raised-button color="warn"
-        (click)="removeSelectedRows()"
-        *ngIf="isAuth"
-      >
-        Remove Rows
-      </button>
-      <button
-      class="button-add-row"
-      mat-raised-button color="accent"
-      (click)="addRow()"
-      *ngIf="isAuth"
-      >
-        Add Row
-      </button>
-    </div>
-  </article>
+<h1>  Gestion des bénévoles </h1>
 
   <mat-divider></mat-divider>
 
+  <article class="table-header">
+    <div class="filterInput mt-3">
+      <mat-form-field class="mat-mdc-form-field">
+        <mat-label>Filtrer par Nom, prénom, Email</mat-label>
+        <input matInput (keyup)="applyFilterText($event)" placeholder="Ex. Berry" #input>
+      </mat-form-field>
+    </div>
+      <div class="btn-add-del">
+        <button
+        class="button-add-row"
+        mat-raised-button color="accent"
+        (click)="addRow()"
+        *ngIf="isAuth"
+        >
+          Add Row
+        </button>
+        <button
+          class="button-remove-rows"
+          mat-raised-button color="warn"
+          (click)="removeSelectedRows()"
+          *ngIf="isAuth"
+        >
+          Remove Rows
+        </button>
+      </div>
+    </article>
+
   <!--Filters all-->
-  <div class="filterInput mt-3">
-    <mat-form-field class="mat-mdc-form-field">
-      <mat-label>Filtrer par Nom, prénom, Email</mat-label>
-      <input matInput (keyup)="applyFilterText($event)" placeholder="Ex. Berry" #input>
-    </mat-form-field>
-  </div>
+
 
   <table mat-table [dataSource]="benevolesDisplay">
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">

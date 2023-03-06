@@ -5,7 +5,7 @@
     border-color: currentColor;
     font-weight: bold;
   }
-  
+
   p {
   font-family: Lato;
   }
@@ -20,11 +20,19 @@
   text-align: right;
   }
 
+  h1{
+    text-align: center;
+  }
+
   h2 {
   text-align: center;
   padding-top: 20px;
   }
-  
+
+  .mat-divider {
+    margin: 20px 15%;
+    width: 70%;
+  }
 
   .table-header {
   width: 70%;
@@ -35,20 +43,20 @@
   align-items: center;
   justify-content: space-between;
   }
-  
-  
+
+
   .button-remove-rows {
   margin-right: 5px;
   }
-  
+
   .button-remove {
   color: red;
   }
-  
+
   ::ng-deep .mat-form-field-infix {
   width: 100% important;
   }
-  
+
   .form-input {
   padding-right: 5px;
   }
@@ -66,7 +74,7 @@
     font-size: 14px;
     width: 100%;
   }
-  
+
   .example-additional-selection {
     opacity: 0.75;
     font-size: 0.75em;
