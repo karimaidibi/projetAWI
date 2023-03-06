@@ -51,6 +51,8 @@ export class JeuxComponent implements OnInit, OnDestroy {
   //auth
   isAuth!: boolean
 
+  globalFilter : any[] = ['','','']; // nom, typeJeu, zone
+
   constructor(private jeuxService: JeuxService,
     public dialog: MatDialog,
     private typesJeuxService: TypesJeuxService,
@@ -103,6 +105,9 @@ export class JeuxComponent implements OnInit, OnDestroy {
     
     //verifier si l'utilisateur est authentifié
     this.VerifSignIn()
+
+    // set the predicate filter 
+    this.setFilterPredicate()
   }
 
   //assigner is auth a true si user est connecté
@@ -377,34 +382,65 @@ export class JeuxComponent implements OnInit, OnDestroy {
     return true
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  setFilterPredicate(){
     this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
-      return data.nom.toLowerCase().includes(filter) || data.zone.toLowerCase().includes(filter) || data.typeJeu.toLowerCase().includes(filter);
+      // Recuperer le filtre de type string et le transformer en tableau de string
+      let globalFilterArray = filter.split('$$$');
+      // recuperer le filtre all (de la case 0)
+      const filterAll = globalFilterArray[0];
+      // recuperer le filtre typeJeu (de la case 1)
+      const filterTypeJeu = globalFilterArray[1];
+      const selectedTypes = filterTypeJeu.split(',') as string[]; // cast to string[]
+      // recuperer le filtre zone (de la case 2)
+      const filterZone = globalFilterArray[2];
+      const selectedZonesArray = filterZone.split(',') as string[]; // cast to string[]
+      // definir la condition pour le filtre all
+      let conditionAll = data.nom.toLowerCase().includes(filterAll) || data.zone.toLowerCase().includes(filterAll) || data.typeJeu.toLowerCase().includes(filterAll);
+      // definir la condition pour le filtre typeJeu
+      let conditionTypeJeu = selectedTypes.length === 0 || selectedTypes.some(type => data.typeJeu.includes(type));
+      // definir la condition pour le filtre zone
+      let conditionZone = selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
+      return conditionAll && conditionTypeJeu && conditionZone;
     };
-    this.jeuxDisplay.filter = filterValue.trim().toLowerCase();
-    console.log("filterValue", filterValue)
   }
 
+  applyFilter(event: Event) {
+    // recuperer le filtre
+    const filterValue = (event.target as HTMLInputElement).value;
+    // stocker le filtre all dans le tableau globalFilter
+    this.globalFilter[0] = filterValue.trim().toLowerCase();
+    // transformer le tableau globalFilter en string
+    const filter = this.globalFilter.join('$$$');
+    // affecter le filtre
+    this.jeuxDisplay.filter = filter
+  }
+
+
   onTypesJeuxFilterChanged() {
+    // recuperer le filtre
     const selectedTypesJeux = this.typesJeuxFilterForm.value;
+    // stocker le filtre all dans le tableau globalFilter
     if(selectedTypesJeux != null) {
-      this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
-        const selectedTypes = Array.from(selectedTypesJeux) as string[]; // cast to string[]
-        return selectedTypes.length === 0 || selectedTypes.some(type => data.typeJeu.includes(type));
-      };
-      this.jeuxDisplay.filter = selectedTypesJeux;
-    };
+      const selectedTypes = Array.from(selectedTypesJeux) as string[]; // cast to string[]
+      this.globalFilter[1] = selectedTypes;
+      // transformer le tableau globalFilter en string
+      const filter = this.globalFilter.join('$$$');
+      // affecter le filtre
+      this.jeuxDisplay.filter = filter
+    }
   }
 
   onZonesFilterChanged() {
+    // recuperer le filtre
     const selectedZones = this.zonesFilterForm.value;
+    // stocker le filtre all dans le tableau globalFilter
     if(selectedZones != null) {
-      this.jeuxDisplay.filterPredicate = (data: JeuDisplay, filter: string) => {
-        const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
-        return selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
-      };
-      this.jeuxDisplay.filter = selectedZones;
+      const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
+      this.globalFilter[2] = selectedZonesArray;
+      // transformer le tableau globalFilter en string
+      const filter = this.globalFilter.join('$$$');
+      // affecter le filtre
+      this.jeuxDisplay.filter = filter
     };
   }
   

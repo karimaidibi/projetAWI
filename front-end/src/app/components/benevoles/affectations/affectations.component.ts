@@ -70,6 +70,9 @@ export class AffectationsComponent implements OnInit {
   selectedCalendarStartTime: Date | null = null;
   selectedCalendarEndTime: Date | null = null;
 
+  // global filter
+  globalFilter : any[] = ['','',''];
+
   constructor(
     public dialog: MatDialog,
     private zonesService: ZonesService,
@@ -428,41 +431,77 @@ export class AffectationsComponent implements OnInit {
     return true
   }
 
-  onDateFilterChanged(event: any) {
+  setFilterPredicate() {
     this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
-      const [date1, date2] = filter.split(";");
+      // Recuperer le filtre de type string et le transformer en tableau de string
+      let globalFilterArray = filter.split('$$$');
+      // recuperer le filtre all (de la case 0)
+      const filterAll = globalFilterArray[0];
+      // recuperer le filtre date (de la case 1)
+      const filterDate = globalFilterArray[1];
+      const [date1, date2] = filterDate.split(";");
       const selectedDate1 = new Date(date1).getTime()
       const selectedDate2 = new Date(date2).getTime()
       const startTime = new Date(data.date + " " + data.debut_creneau).getTime();
       const endTime = new Date(data.date + " " + data.fin_creneau).getTime();
-      return (
+      // recuperer le filtre zone (de la case 2)
+      const filterZone = globalFilterArray[2];
+      const selectedZonesArray = filterZone.split(',') as string[]; // cast to string[]
+      // definir la condition pour le filtre all
+      let conditionAll = data.nom.toLowerCase().includes(filterAll) || data.prenom.toLowerCase().includes(filterAll) || data.email.toLowerCase().includes(filterAll);
+      // definir la condition pour le filtre date
+      let conditionDate =  (
         (startTime >= selectedDate1 || !selectedDate1) &&
         (endTime <= selectedDate2 || !selectedDate2)
       );
+      // definir la condition pour le filtre zone
+      let conditionZone = selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
+      return conditionAll && conditionDate && conditionZone;
     };
+  }
+
+  onDateFilterChanged(event: any) {
+    // set the filter predicate of the table
+    this.setFilterPredicate()
+    // recuperer le filtre de date de debut et de fin
     const selectedDate1 = this.datetimeFilterForm.value
     const selectedDate2 = this.datetimeFilterForm2.value
-    let filter = selectedDate1 + ";" + selectedDate2
+    let dateFilter = selectedDate1 + ";" + selectedDate2
+    // stocker le filtre dans le tableau globalFilter
+    this.globalFilter[1] = dateFilter
+    // transformer le tableau globalFilter en string
+    let filter = this.globalFilter.join('$$$')
+    // appliquer le filtre
     this.benevolesDisplay.filter = filter
   }
 
   onZonesFilterChanged() {
+    // set the filter predicate of the table
+    this.setFilterPredicate()
+    // recuperer le filtre
     const selectedZones = this.zonesFilterForm.value;
+    // stocker le filtre all dans le tableau globalFilter
     if(selectedZones != null) {
-      this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
-        const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
-        return selectedZonesArray.length === 0 || selectedZonesArray.some(zone => data.zone.includes(zone));
-      };
-      this.benevolesDisplay.filter = selectedZones;
+      const selectedZonesArray = Array.from(selectedZones) as string[]; // cast to string[]
+      this.globalFilter[2] = selectedZonesArray;
+      // transformer le tableau globalFilter en string
+      const filter = this.globalFilter.join('$$$');
+      // affecter le filtre
+      this.benevolesDisplay.filter = filter
     };
   }
 
   applyFilterText(event: Event) {
+    // set the filter predicate of the table
+    this.setFilterPredicate()
+    // recuperer le filtre
     const filterValue = (event.target as HTMLInputElement).value;
-    this.benevolesDisplay.filterPredicate = (data: BenevoleDisplay, filter: string) => {
-      return data.nom.toLowerCase().includes(filter) || data.prenom.toLowerCase().includes(filter) || data.email.toLowerCase().includes(filter);
-    };
-    this.benevolesDisplay.filter = filterValue.trim().toLowerCase();
+    // stocker le filtre all dans le tableau globalFilter
+    this.globalFilter[0] = filterValue.trim().toLowerCase();
+    // transformer le tableau globalFilter en string
+    const filter = this.globalFilter.join('$$$');
+    // affecter le filtre
+    this.benevolesDisplay.filter = filter
   }
 
 
