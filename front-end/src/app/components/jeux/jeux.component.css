@@ -9,11 +9,14 @@
 p {
 font-family: Lato;
 }
+
 table {
 width: 60%;
 margin: 0 auto;
 margin-top: 25px;
+padding-bottom: 5%;
 }
+
 .btn-edit {
 text-align: right;
 }

@@ -1,12 +1,14 @@
 .ProduitsDiv{
   /* border: 1px solid black; */
-  margin : 20px;
+  margin: 20px;
+  /* Pour éviter que le footer ne recouvre la dernière ligne */
+  padding-bottom: 5%;
 }
 
 .mat-table{
   background-color: #424242;
   width: 50%;
-  margin: 0 auto;
+  margin: auto;
 }
 
 .mat-row:hover{
