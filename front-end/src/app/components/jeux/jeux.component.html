@@ -1,9 +1,17 @@
+<h1>  Gestion des jeux </h1>
+
+<mat-divider></mat-divider>
+
 <!-- The Buttons -->
 <article class="table-header">
-  <div>
-    <i>Nom is required | Type is required</i>
-  </div>
   <!-- Filtrer par type -->
+  <!--Filters all-->
+  <div>
+    <mat-form-field class="mat-mdc-form-field">
+      <mat-label>Filtrer par Nom, type ou zone</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. black jack" #input>
+    </mat-form-field>
+  </div>
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Fitrer Par Types des jeux</mat-label>
@@ -16,13 +24,6 @@
         </mat-select-trigger>
         <mat-option *ngFor="let typeJeu of typesJeux" [value]="typeJeu.type">{{typeJeu.type}}</mat-option>
       </mat-select>
-    </mat-form-field>
-  </div>
-  <!--Filters all-->
-  <div>
-    <mat-form-field class="mat-mdc-form-field">
-      <mat-label>Filtrer par Nom, type ou zone</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. black jack" #input>
     </mat-form-field>
   </div>
   <!-- Filtrer par zone -->
@@ -43,6 +44,13 @@
   <!--Boutons de edit de la table -->
   <div>
     <button
+        class="button-add-row"
+        mat-raised-button color="accent"
+        (click)="addRow()"
+        *ngIf="isAuth">
+      Add Row
+    </button>
+    <button
       class="button-remove-rows"
       mat-raised-button color="warn"
       (click)="removeSelectedRows()"
@@ -50,18 +58,8 @@
     >
       Remove Rows
     </button>
-    <button
-        class="button-add-row"
-        mat-raised-button color="accent"
-        (click)="addRow()"
-        *ngIf="isAuth">
-      Add Row
-    </button>
   </div>
 </article>
-
-<mat-divider></mat-divider>
-<mat-divider></mat-divider>
 
 <!--The Dynamic Table-->
 <table mat-table [dataSource]="jeuxDisplay" matSort >

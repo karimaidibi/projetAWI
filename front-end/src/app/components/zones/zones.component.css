@@ -17,6 +17,16 @@
   font-weight: bold;
 }
 
+/* gestion du titre de la page */
+h1{
+  text-align: center;
+}
+
+.mat-divider {
+  margin: 20px 25%;
+  width: 50%;
+}
+
 .col{
   text-align: center;
   padding: 30px;
