@@ -17,13 +17,18 @@ margin-top: 25px;
 .btn-edit {
 text-align: right;
 }
+
+h1{
+  text-align: center;
+}
+
 h2 {
 text-align: center;
 padding-top: 20px;
 }
 
 .table-header {
-width: 90%;
+width: 60%;
 margin: auto;
 text-align: right;
 margin-bottom: 10px;
@@ -32,9 +37,13 @@ align-items: center;
 justify-content: space-between;
 }
 
+.mat-divider {
+  margin: 20px 20%;
+  width: 60%;
+}
 
 .button-remove-rows {
-margin-right: 5px;
+margin: 5px;
 }
 
 .button-remove {

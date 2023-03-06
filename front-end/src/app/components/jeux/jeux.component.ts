@@ -102,7 +102,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
       }
     });
     this.zonesService.getZones()
-    
+
     //verifier si l'utilisateur est authentifié
     this.VerifSignIn()
 
@@ -170,7 +170,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * first it will change class the function createJeuFromDisplay that will create a jeu Object with the jeuDisplay object
    * if the id of the jeu is 0 it will call the function createJeu() which will call the service to create the jeu
    * else it will call the function updateJeu() which will call the service to update the jeu
-   * 
+   *
    */
   editRow(row: JeuDisplay) {
     if(this.isAuth){
@@ -188,8 +188,8 @@ export class JeuxComponent implements OnInit, OnDestroy {
 
   /**
    * Cancel the edit of a row
-   * @param row 
-   * 
+   * @param row
+   *
    */
   cancelEdit(row: JeuDisplay) {
     if (Number(row._id) < 0) {
@@ -203,7 +203,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 
+   *
    * createJeuFromDisplay
    * will create a jeu Object with the jeuDisplay object
    * @param row
@@ -219,7 +219,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
         row.typeJeu = typeJeu.type
       }
     }
-    
+
     // create a Zone object from the zone field of the jeuDisplay
     let zone : Zone = {_id: "", nom: ""}
     if (row.idZone !== "") {
@@ -276,7 +276,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
    * if the user confirm the deletion it will retrieve the ids of selected rows and call the function deleteJeux(jeuxIds)
    * that will call the service to delete the jeux
    * else it will do nothing
-   */ 
+   */
   removeSelectedRows() {
     if(this.isAuth){
       this.dialog
@@ -443,7 +443,7 @@ export class JeuxComponent implements OnInit, OnDestroy {
       this.jeuxDisplay.filter = filter
     };
   }
-  
+
 
   ngOnDestroy(): void {
     this.jeuxSub.unsubscribe()
