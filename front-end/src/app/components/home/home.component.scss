@@ -1,87 +1,56 @@
-@import 'src/theme.scss';
-
-@keyframes enlarge {
-  0% {
-    font-size: 3rem;
-  }
-  50% {
-    font-size: 3.3rem;
-  }
-  100% {
-    font-size: 3rem;
-  }
-}
-
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 80%;
-    margin-top : 4rem;
-
+    justify-content: center;
+    height: 100%;
+  
     .title-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 2rem;
-
+  
       h1 {
         font-size: 3rem;
-        margin: 15px;
+        margin: 0;
       }
-
-      .animated-text{
-        animation-name: enlarge;
-        animation-duration: 1.8s;
-        animation-iteration-count: infinite;
-      }
-
+  
       p {
         font-size: 1.5rem;
-        margin: 10px;
+        margin: 0;
       }
     }
-
-    .mat-divider {
-      margin: 30px 20%;
-      margin-top: 0;
-      width: 65%;
-    }
-
+  
     .card-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-gap: 2rem;
       max-width: 800px;
       width: 100%;
-
+  
       .card {
-        background-color: $primary-color;
-        color: $accent-color;
-        /* 500 c'est normal et 700 c'est bold */
-        font-weight: 525;
-
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+  
         mat-card-header {
           background-color: var(--primary-color);
           color: var(--accent-color);
-
+  
           mat-card-title {
             font-size: 2rem;
             margin: 0;
-            color: $font-color;
           }
         }
-
+  
         mat-card-content {
           font-size: 1.2rem;
           margin-top: 1rem;
         }
-
+  
         &:hover {
-          background-color: $secondary-color;
-          color: $accent-color;
-          /* 500 c'est normal et 700 c'est bold */
-          font-weight: 575;
+          background-color: var(--primary-color);
+          color: var(--accent-color);
           cursor: pointer;
           transform: scale(1.05);
           transition: transform 0.2s ease-in-out;
@@ -89,3 +58,4 @@
       }
     }
   }
+  
