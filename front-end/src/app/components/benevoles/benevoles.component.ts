@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ import { AuthService } from './../../services/auth.service';
 // Error Dialog
 import { ErrorDialogComponent } from './../partials/error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class BenevolesComponent implements OnInit {
 
   rowNumber: number = 0;
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(
     public dialog: MatDialog,
     private benevolesService: BenevolesService,
@@ -60,6 +63,10 @@ export class BenevolesComponent implements OnInit {
       }
     })
     this.benevolesService.getBenevoles()
+  }
+
+  ngAfterViewInit() {
+    this.benevolesDisplay.sort = this.sort;
   }
 
   //assigner is auth a true si user est connecté

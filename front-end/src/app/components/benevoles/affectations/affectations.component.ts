@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { Affectation } from 'src/app/models/affectation';
 import { Creneau } from 'src/app/models/creneau';
 // Error Dialog
 import { ErrorDialogComponent } from '../../partials/error-dialog/error-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 // auth
 import { AuthService } from 'src/app/services/auth.service';
 // imports for ng-matero extension
@@ -24,6 +24,7 @@ import {
 } from '@ng-matero/extensions/datetimepicker';
 import { UntypedFormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -78,6 +79,12 @@ export class AffectationsComponent implements OnInit {
   */
   globalFilter : any[] = ['','','']; 
 
+  @ViewChild(MatSort) sort!: MatSort;
+
+  // snack bar positions
+  horizontalPositionOfSnackBar: MatSnackBarHorizontalPosition  = 'center';
+  verticalPositionOfSnackBar: MatSnackBarVerticalPosition =  'top';
+
   constructor(
     public dialog: MatDialog,
     private zonesService: ZonesService,
@@ -116,6 +123,10 @@ export class AffectationsComponent implements OnInit {
       }
     })
     this.zonesService.getZones()
+  }
+
+  ngAfterViewInit() {
+    this.benevolesDisplay.sort = this.sort;
   }
 
   //assigner is auth a true si user est connecté
@@ -180,6 +191,8 @@ export class AffectationsComponent implements OnInit {
           data: 'End time must be after start time',
           duration: 3000,
           panelClass: ['error-snackbar'],
+          horizontalPosition: this.horizontalPositionOfSnackBar,
+          verticalPosition: this.verticalPositionOfSnackBar,
         });
       }else{
         // check that this benevole doesn't have two affectations at the same time

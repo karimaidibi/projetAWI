@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ import { ErrorDialogComponent } from '../../partials/error-dialog/error-dialog.c
 import { MatSnackBar } from '@angular/material/snack-bar';
 // auth
 import { AuthService } from 'src/app/services/auth.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'festivalJeux-single-benevole-affectations',
@@ -44,6 +45,8 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
   rowNumber: number = 0;
 
   benevoleId!: string;
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     public dialog: MatDialog,
@@ -91,6 +94,11 @@ export class SingleBenevoleAffectationsComponent implements OnInit {
     })
     this.zonesService.getZones()
   }
+
+  ngAfterViewInit() {
+    this.benevolesDisplay.sort = this.sort;
+  }
+
 
   //assigner is auth a true si user est connecté
   verifSignIn() : void{
