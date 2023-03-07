@@ -4,19 +4,19 @@
 
 # Prérequis
 
-  - Angular CLI: V14.2.10 au moins
-  - Node: V16.17.0 au moins
-  - Package Manager: npm V9.1.3 au moins
+  - Angular CLI, version utilisée : 14.2.10
+  - Node, version utilisée : 16.17.0
+  - Package Manager npm, version utilisée :  9.1.3
 
 # Installation
-  - Clonez le projet depuis Github : git clone https://github.com/nom_du_projet.git
-  - Installez les dépendances du front-end : cd frontend && npm install
-  - Installez les dépendances du back-end : cd backend && npm install
+  - Clonez le projet depuis Github : git clone https://github.com/karimaidibi/projetAWI
+  - Installez les dépendances du front-end : cd front-end && npm install
+  - Installez les dépendances du back-end : cd back-end && npm install
 
 # Utilisation
 
-  - Pour lancer le serveur de développement du front-end : cd frontend && ng serve
-  - Pour lancer le serveur de développement du back-end : cd backend && npm start
+  - Pour lancer le serveur de développement du front-end : cd front-end && ng serve
+  - Pour lancer le serveur de développement du back-end : cd back-end && npm start
 
 # Fonctionnalités
 
