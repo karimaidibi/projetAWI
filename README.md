@@ -1,6 +1,6 @@
 # Projet AWI
 
-    Projet AWI : Gestion bénévoles pour le Festival du Jeu
+  - Projet AWI : Gestion bénévoles pour le Festival du Jeu
 
 # Prérequis
 
