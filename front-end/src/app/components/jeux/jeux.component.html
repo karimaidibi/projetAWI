@@ -44,11 +44,12 @@
   <!--Boutons de edit de la table -->
   <div>
     <button
-        class="button-add-row"
+        class="me-2 buttonAddRow"
         mat-raised-button color="accent"
         (click)="addRow()"
         *ngIf="isAuth">
-      Add Row
+        Ajouter un Jeux
+        <mat-icon class="ms-1">add</mat-icon>
     </button>
     <button
       class="button-remove-rows"
@@ -56,7 +57,8 @@
       (click)="removeSelectedRows()"
       *ngIf="isAuth"
     >
-      Remove Rows
+    Supprimer les jeux sélectionnés
+    <mat-icon>delete</mat-icon>
     </button>
   </div>
 </article>
@@ -93,19 +95,23 @@
         <!---If type of column is isEdit--->
         <div class="btn-edit" *ngSwitchCase="'isEdit'">
           <button
-            mat-button
+            mat-raised-button color="accent"
             (click)="element.isEdit = !element.isEdit"
             *ngIf="isAuth"
+            class="me-3"
           >
             Edit
+            <mat-icon class ="ms-1">edit</mat-icon>
           </button>
           <button
-            mat-button
-            class="button-remove"
+            mat-raised-button
+            color="warn"
+            class="me-3"
             (click)="removeRow(element._id)"
             *ngIf="isAuth"
           >
             Delete
+            <mat-icon class ="ms-1">delete</mat-icon>
           </button>
         </div>
         <!---If type of column is date--->
@@ -125,17 +131,20 @@
         <!---If type of column is isEdit--->
         <div class="btn-edit" *ngSwitchCase="'isEdit'">
           <button
-            mat-button
+            mat-raised-button
             (click)="editRow(element)"
             [disabled]="disableSubmit(element._id)"
             *ngIf="isAuth"
+            class="me-3"
+            color="accent"
           >
             Done
           </button>
           <button
-          mat-button
+          mat-raised-button
           (click)="cancelEdit(element)"
           *ngIf="isAuth"
+          color="warn"
         >
           Cancel
         </button>

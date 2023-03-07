@@ -43,17 +43,10 @@
     width: 60%;
   }
 
-  .btn-add-del {
-    margin-left: 10%;
-  }
-
   .button-remove-rows {
   margin: 5px;
   }
 
-  .button-remove {
-  color: red;
-  }
 
   ::ng-deep .mat-form-field-infix {
   width: 100% important;
@@ -72,4 +65,8 @@
 
   .filterInput {
     width: 70%;
+  }
+
+  .buttonAddRow {
+    margin-top: 5px;
   }

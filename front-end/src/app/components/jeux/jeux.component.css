@@ -49,10 +49,6 @@ justify-content: space-between;
 margin: 5px;
 }
 
-.button-remove {
-color: red;
-}
-
 ::ng-deep .mat-form-field-infix {
 width: 100% important;
 }
@@ -69,4 +65,8 @@ padding-right: 5px;
 .example-additional-selection {
   opacity: 0.75;
   font-size: 0.75em;
+}
+
+.buttonAddRow {
+  margin-top: 5px;
 }

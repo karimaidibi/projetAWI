@@ -1,8 +1,5 @@
-.boutonDark{
+.boutonLogIn{
   width: 100%;
-  border-color: #323232;
-  background-color: #323232;
-  color: white;
 }
 
 .offcanvas{
@@ -12,4 +9,8 @@
 
 .hrHeader{
   margin-left: 20%;
+}
+
+div{
+  color:white
 }

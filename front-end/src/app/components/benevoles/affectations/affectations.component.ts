@@ -71,7 +71,12 @@ export class AffectationsComponent implements OnInit {
   selectedCalendarEndTime: Date | null = null;
 
   // global filter
-  globalFilter : any[] = ['','',''];
+  /*
+    - 0 pour le filterALL (barre de recherche),
+    - 1 pour le filterDate (des créneaux),
+    - 2 pour le filterZone
+  */
+  globalFilter : any[] = ['','','']; 
 
   constructor(
     public dialog: MatDialog,

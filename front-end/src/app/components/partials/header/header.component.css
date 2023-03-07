@@ -3,40 +3,34 @@ header {
   position: relative;
 }
 
-header::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background-color: #9b59b6;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  z-index: -1;
+.d-flex:hover{
+  background-color: #9C27B0;
+  color: white;
 }
+
+button{
+  font-weight: bold;
+}
+
+button:hover{
+  color: black;
+  background-color: #69F0AE;
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
 
 /* Change font color of <a> to white and with no text decoration */
 a{
   color: white;
-  text-decoration: none;
   font-weight: bold;
+  text-decoration: none;
 }
-
-
-/* desactivate everything on hover for the class .d-flex */
-.d-flex:hover{
-  background-color: #9C27B0;
-  cursor: pointer;
-}
-
-
 
 a:hover{
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
 }
-
 
 em{
   font-size: x-small;
@@ -44,24 +38,3 @@ em{
   padding-left: 1%;
 }
 
-.brand{
-  padding-top: 1%;
-  padding-left: 1%;
-}
-
-.hrHeader{
-  margin-left: 20%;
-}
-
-a:hover {
-  background-color: #323232;
-  cursor: pointer;
-}
-
-.adminTool a:hover{
-  border-bottom: 1px solid white;
-}
-
-.adminTool{
-  background-color: black;
-}

@@ -9,25 +9,31 @@
         <input matInput (keyup)="applyFilterText($event)" placeholder="Ex. Berry" #input>
       </mat-form-field>
     </div>
-      <div class="btn-add-del">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <div>
         <button
-        class="button-add-row"
+        class="me-2 buttonAddRow"
         mat-raised-button color="accent"
         (click)="addRow()"
         *ngIf="isAuth"
         >
-          Add Row
+          Ajouter un bénévole
+          <mat-icon class="ms-1">add</mat-icon>
         </button>
+      </div>
+      <div>
         <button
           class="button-remove-rows"
           mat-raised-button color="warn"
           (click)="removeSelectedRows()"
           *ngIf="isAuth"
         >
-          Remove Rows
+          Supprimer les bénévoles sélectionnés
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
-    </article>
+    </div>
+  </article>
 
   <!--Filters all-->
 
@@ -63,28 +69,32 @@
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button
-            mat-icon-button color="accent"
+            mat-raised-button color="accent"
             (click)="element.isEdit = !element.isEdit"
             *ngIf="isAuth"
+            class="me-3"
             >
-              <mat-icon>edit</mat-icon>
+            Edit
+            <mat-icon class ="ms-1">edit</mat-icon>
             </button>
             <button
-              mat-icon-button
+              mat-raised-button
               color="warn"
-              class="button-remove"
+              class="me-3"
               (click)="removeRow(element._id)"
               *ngIf="isAuth"
             >
-              <mat-icon>delete</mat-icon>
+            Delete
+            <mat-icon class ="ms-1">delete</mat-icon>
             </button>
             <button
-              mat-mini-fab
+              mat-raised-button
               color="primary"
               [routerLink]="['/single-benevole-affectations', element._id]"
               *ngIf="isAuth"
             >
-              <mat-icon>timer</mat-icon>
+            Affectations
+            <mat-icon class ="ms-1">timer</mat-icon>
             </button>
           </div>
           <!---If type of column is affectations -->
@@ -104,17 +114,20 @@
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button
-              mat-button
+              mat-raised-button
               (click)="editRow(element)"
               [disabled]="disableSubmit(element._id)"
               *ngIf="isAuth"
+              class="me-3"
+              color="accent"
             >
               Done
             </button>
             <button
-            mat-button
+            mat-raised-button
             (click)="cancelEdit(element)"
             *ngIf="isAuth"
+            color="warn"
           >
             Cancel
           </button>

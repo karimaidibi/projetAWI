@@ -51,7 +51,12 @@ export class JeuxComponent implements OnInit, OnDestroy {
   //auth
   isAuth!: boolean
 
-  globalFilter : any[] = ['','','']; // nom, typeJeu, zone
+  /* Global filter
+    - 0 pour le filterALL (barre de recherche),
+    - 1 pour le filterTypeJeu ,
+    - 2 pour le filterZone
+  */
+  globalFilter : any[] = ['','',''];
 
   constructor(private jeuxService: JeuxService,
     public dialog: MatDialog,

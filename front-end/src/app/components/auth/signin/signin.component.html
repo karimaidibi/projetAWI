@@ -1,7 +1,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">CONNEXION</h5>
+      <h2 class="offcanvas-title" id="offcanvasExampleLabel">CONNEXION</h2>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body" *ngIf="!loading">
@@ -10,13 +10,13 @@
         Saisissez vos identifiants
       </div>
 
-      <hr class="bg-gradient bg-dark hrHeader" style="width: 60%; height:0.5px;">
+      <hr class="hrHeader" style="width: 60%; height:1px;">
 
       <div>
         <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
 
         <!--alert sign in error -->
-        <div *ngIf="errorMessage" class="container mx-auto alert alert-dark alert-dismissible fade show" role="alert" style="max-width: 700px;">
+        <div *ngIf="errorMessage" class="container mx-auto alert alert-danger alert-dismissible fade show" role="alert" style="max-width: 700px; color: black">
           {{errorMessage}}
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -40,7 +40,7 @@
             <div id="emailHelp" class="form-text">Nous gardons bien les secrets :')</div>
           </div>
 
-          <button type="submit" class="btn boutonDark  btn-lg" [disabled]="signInForm.invalid">Se connecter</button>
+          <button mat-raised-button color="accent" type="submit" class="boutonLogIn" [disabled]="signInForm.invalid">Se connecter</button>
 
           <hr class="hrHeader" style="width: 40%; height:3px;">
 

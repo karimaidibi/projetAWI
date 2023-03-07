@@ -18,8 +18,10 @@
   padding-bottom: 5%;
   }
 
+  /* it adds a margin between the two buttons */
   .btn-edit {
   text-align: right;
+  color: white;
   }
 
   h1{
@@ -29,11 +31,6 @@
   h2 {
   text-align: center;
   padding-top: 20px;
-  }
-
-  .mat-divider {
-    margin: 20px 15%;
-    width: 70%;
   }
 
   .table-header {
@@ -46,13 +43,14 @@
   justify-content: space-between;
   }
 
+  .mat-divider {
+    margin: 20px 15%;
+    width: 70%;
+  }
+  
 
   .button-remove-rows {
   margin-right: 5px;
-  }
-
-  .button-remove {
-  color: red;
   }
 
   ::ng-deep .mat-form-field-infix {

@@ -69,7 +69,8 @@
       (click)="removeSelectedRows()"
       *ngIf="isAuth"
     >
-      Remove Rows
+      Supprimer les affectations sélectionnées
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
 </article>
@@ -106,19 +107,23 @@
           </ng-container>
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
-            <button mat-button
+            <button mat-raised-button
+            color="accent"
             (click)="handleClickOnEdit(element)"
             *ngIf="isAuth"
+            class="me-3"
             >
               Edit
+              <mat-icon class ="ms-1">edit</mat-icon>
             </button>
             <button
-              mat-button
-              class="button-remove"
+              mat-raised-button
+              color="warn"
               (click)="removeRow(element)"
               *ngIf="isAuth"
             >
               Delete
+              <mat-icon class ="ms-1">delete</mat-icon>
             </button>
           </div>
           <!---If type of column is date--->
@@ -138,14 +143,17 @@
           <!---If type of column is isEdit--->
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button
-              mat-button
+              mat-raised-button
+              color="accent"
               (click)="editRow(element)"
               [disabled]="disableSubmit(element.rowId)"
+              class="me-3"
             >
               Done
             </button>
             <button
-            mat-button
+            mat-raised-button
+            color="warn"
             (click)="cancelEdit(element)"
           >
             Cancel
