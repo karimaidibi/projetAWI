@@ -7,6 +7,19 @@
       <i>Affectations du bénévole '{{benevole.prenom}} {{ benevole.nom }}' :</i>
     </div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <!--bouton si user n'est pas connecté-->
+      <div>
+        <button
+        class="button-remove-rows"
+        mat-raised-button color="primary"
+        *ngIf="!isAuth"
+        data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
+      >
+        Gérer les affectations du bénévole
+        <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <!--bouton si user est connecté-->
       <div>
         <button
         class="me-2"

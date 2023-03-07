@@ -62,6 +62,19 @@
       </mat-select>
     </mat-form-field>
   </div>
+<!--bouton si user n'est pas connecté-->
+  <div>
+    <button
+    class="button-remove-rows"
+    mat-raised-button color="primary"
+    *ngIf="!isAuth"
+    data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
+  >
+    Gérer les affectations
+    <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+<!--bouton si user est connecté-->
   <div>
     <button
       class="button-remove-rows"

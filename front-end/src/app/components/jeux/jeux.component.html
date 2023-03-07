@@ -2,9 +2,7 @@
 
 <mat-divider></mat-divider>
 
-<!-- The Buttons -->
 <article class="table-header">
-  <!-- Filtrer par type -->
   <!--Filters all-->
   <div>
     <mat-form-field class="mat-mdc-form-field">
@@ -12,6 +10,7 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. black jack" #input>
     </mat-form-field>
   </div>
+  <!-- Filtrer par type -->
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Fitrer Par Types des jeux</mat-label>
@@ -41,6 +40,19 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <!--bouton si user n'est pas connecté-->
+  <div>
+    <button
+    class="button-remove-rows"
+    mat-raised-button color="primary"
+    *ngIf="!isAuth"
+    data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
+  >
+    Gérer les jeux
+    <mat-icon>edit</mat-icon>
+    </button>
+  </div>
+  <!--bouton si user est connecté-->
   <!--Boutons de edit de la table -->
   <div>
     <button

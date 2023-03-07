@@ -3,6 +3,7 @@
   <mat-divider></mat-divider>
 
   <article class="table-header">
+    <!--Filters all-->
     <div class="filterInput mt-3">
       <mat-form-field class="mat-mdc-form-field">
         <mat-label>Filtrer par Nom, prénom, Email</mat-label>
@@ -10,6 +11,19 @@
       </mat-form-field>
     </div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <!--bouton si user n'est pas connecté-->
+      <div>
+        <button
+        class="button-remove-rows"
+        mat-raised-button color="primary"
+        *ngIf="!isAuth"
+        data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample"
+      >
+        Gérer les bénévoles
+        <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <!--bouton si user est connecté-->
       <div>
         <button
         class="me-2 buttonAddRow"
@@ -34,9 +48,6 @@
       </div>
     </div>
   </article>
-
-  <!--Filters all-->
-
 
   <table mat-table [dataSource]="benevolesDisplay">
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
