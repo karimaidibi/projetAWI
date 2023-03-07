@@ -1,0 +1,96 @@
+[33mcommit 76f9307f251f467007b3c464bd9a5c16b93373df[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Tue Mar 7 00:54:54 2023 +0100
+
+    css home page
+
+[33mcommit 8a7dba6c6ecb09a10ef1dbf2f38a1fbcea40cab0[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Mon Mar 6 23:20:32 2023 +0100
+
+    start home
+
+[33mcommit 14a151081f9fc985966ad641535fba296dbd0c61[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Mon Mar 6 23:09:41 2023 +0100
+
+    fix footer issue
+
+[33mcommit b7f4641dcc5b6a04c7d5b4405aad64aad9fec99a[m
+Merge: cfc5356 7ce9694
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Mon Mar 6 23:00:34 2023 +0100
+
+    Merge branch 'main' of github.com:karimaidibi/projetAWI into main
+
+[33mcommit cfc53564d6538f77ca686847411c70715e9d9a5b[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Mon Mar 6 22:56:10 2023 +0100
+
+    gestion des filtres
+
+[33mcommit 7ce96943291ce5d8b46400eef412298774ac3eeb[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Mon Mar 6 22:52:16 2023 +0100
+
+    css pages de gestions + liste zones
+
+[33mcommit 4b643903fa99f5ac7830fac0628d066decd775bc[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Mon Mar 6 22:35:42 2023 +0100
+
+    css updated
+
+[33mcommit c562b2c14cfbe7d77e30885e773d678fbecadb5f[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Mon Mar 6 14:43:54 2023 +0100
+
+    split filtres creneaux
+
+[33mcommit 643b0a8a1704b97b5ea195809b4c7bef35446c15[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Thu Mar 2 10:01:31 2023 +0100
+
+    guards login jeux & filtres benevoles
+
+[33mcommit dac716c2150b4cf875deb67bfa7a80bf432a3164[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Thu Mar 2 08:59:29 2023 +0100
+
+    filtres des affectations
+
+[33mcommit 0328d179e78551a4f29d26635bf4c7f4b9b39531[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Thu Mar 2 05:01:32 2023 +0100
+
+    install ng matero mtx date picker
+
+[33mcommit c9b9104c7531d6844f7b389e491cc7224b119fd7[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Thu Mar 2 03:40:21 2023 +0100
+
+    update dependencies angular cdk and material from 13 to 14
+
+[33mcommit c73585bbc743c481bdf3b7a4453e2b2121b48b6e[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Thu Mar 2 02:50:45 2023 +0100
+
+    filters jeux
+
+[33mcommit 55975fe0910aeb12d1601956d4591a3bcfdb6382[m
+Author: karimaidibi <karim.aidibi@etu.umontpellier.fr>
+Date:   Wed Mar 1 05:54:28 2023 +0100
+
+    guards creneaux (tout) + guards create benevole
+
+[33mcommit 2675e8438631e159658c4ac0a96e912090148198[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Wed Feb 22 10:10:40 2023 +0100
+
+    login guards ok
+
+[33mcommit 56a2758cc35f8d9b866685939a95298f0026b580[m
+Author: Toury Marwane <tmarwane2000@gmail.com>
+Date:   Tue Feb 21 09:34:12 2023 +0100
+
+    guards login benevole (single benevole in progress)
