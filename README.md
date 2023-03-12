@@ -1,6 +1,7 @@
 # Projet AWI
 
   - Projet AWI : Gestion bénévoles pour le Festival du Jeu
+  - Application en ligne ici : https://festivalappkm.onrender.com (version gratuite donc ça prend un peu du temps à charger l'api)
 
 # Prérequis
 
